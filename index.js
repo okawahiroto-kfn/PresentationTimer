@@ -2,6 +2,9 @@ let btn = document.getElementById('btn');
 let inputText = document.getElementById('inputText');
 let ulElement = document.getElementById('list');
 
+let btnAddNode = document.getElementById('btnAddNode')
+let divElement = document.getElementById('addNode')
+
 btn.addEventListener('click', function() {
   console.log('ボタンが押されました！');
 
@@ -29,4 +32,19 @@ btn.addEventListener('click', function() {
 });
 
 // 配列を用いて、li要素の値を取得、表示する。
-console.log(ulElement.children[2].textContent);
+// console.log(ulElement.children[2].textContent);
+
+btnAddNode.addEventListener('click', function() {
+  console.log('Addボタンが押されました！');
+
+  // templateの内容を取得し、有効にする。
+  var template = document.getElementById('template');
+  var content = template.content;
+  var clone = document.importNode(content, true);
+
+  // div要素の子要素に、template(の内容)を追加する。
+  divElement.appendChild(clone);
+
+  console.log(clone);
+
+});
