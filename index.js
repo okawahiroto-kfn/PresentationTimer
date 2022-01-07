@@ -5,6 +5,8 @@ let ulElement = document.getElementById('list');
 let btnAddNode = document.getElementById('btnAddNode')
 let divElement = document.getElementById('addNode')
 
+let btnCount = 0;
+
 btn.addEventListener('click', function() {
   console.log('ボタンが押されました！');
 
@@ -35,7 +37,9 @@ btn.addEventListener('click', function() {
 // console.log(ulElement.children[2].textContent);
 
 btnAddNode.addEventListener('click', function() {
-  console.log('Addボタンが押されました！');
+  // AddNodeボタンを押した回数カウント
+  btnCount = btnCount + 1;
+  console.log('ボタンが押されました' + btnCount + '回目');
 
   // templateの内容を取得し、有効にする。
   var template = document.getElementById('template');
@@ -45,6 +49,15 @@ btnAddNode.addEventListener('click', function() {
   // div要素の子要素に、template(の内容)を追加する。
   divElement.appendChild(clone);
 
-  console.log(clone);
+  // divの子要素の数カウント(テキストボックス他のカウント)
+  let childElementCount = divElement.childElementCount;
+  console.log('子要素の数:' + childElementCount);
+  // console.log(clone);
+
+  // templateの番号書き換え※途中
+  // let label = content.querySelector('label');
+  // label.textContent = btnCount;
 
 });
+
+// console.log(document.body);
