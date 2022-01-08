@@ -46,18 +46,44 @@ btnAddNode.addEventListener('click', function() {
   var content = template.content;
   var clone = document.importNode(content, true);
 
+  // ナンバリング(ボタンを押した回数をもとに、ナンバリングする)
+  clone.getElementById('itemNumber').innerText = btnCount + '.';
+
+  // 各行ごとのid名付与(後で、削除できるようにするため)
+  const divNo = clone.querySelector('div');
+  divNo.setAttribute('id', btnCount);
+
+  // 削除ボタンにもid名付与(後で、削除できるようにするためだが、これではダメかも)
+  const deleteNo = clone.getElementById('btnDelete');
+  deleteNo.setAttribute('id', 'btnDelete' + btnCount);
+
   // div要素の子要素に、template(の内容)を追加する。
-  divElement.appendChild(clone);
+  document.getElementById('addNode').appendChild(clone);
 
   // divの子要素の数カウント(テキストボックス他のカウント)
   let childElementCount = divElement.childElementCount;
   console.log('子要素の数:' + childElementCount);
-  // console.log(clone);
-
-  // templateの番号書き換え※途中
-  // let label = content.querySelector('label');
-  // label.textContent = btnCount;
-
 });
 
-// console.log(document.body);
+const target = document.getElementById(btnCount);
+
+
+let btnAddNode02 = document.getElementById('btnAddNode02');
+
+// templateを使って、テキストを変更する。
+btnAddNode02.addEventListener('click', function() {
+  console.log('ボタンが押されました！');
+
+  const template02 = document.getElementById('template02');
+  const content02 = template02.content;
+
+  const clone02 = document.importNode(content02, true);
+
+  let userName = 'Yamada';
+
+  clone02.getElementById('name').innerText = userName;
+
+  document.getElementById('addNode02').appendChild(clone02);
+
+  console.log(clone02);
+});
