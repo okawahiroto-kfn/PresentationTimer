@@ -2,8 +2,13 @@ let btn = document.getElementById('btn');
 let inputText = document.getElementById('inputText');
 let ulElement = document.getElementById('list');
 
-let btnAddNode = document.getElementById('btnAddNode')
-let divElement = document.getElementById('addNode')
+let btnAddNode = document.getElementById('btnAddNode');
+let divElement = document.getElementById('addNode');
+
+let btnDelete = document.getElementById('btnDelete');
+console.log(btnDelete);
+
+const btnDeleteNode = document.getElementById('btnDeleteNode');
 
 let btnCount = 0;
 
@@ -33,6 +38,7 @@ btn.addEventListener('click', function() {
 
 });
 
+
 // 配列を用いて、li要素の値を取得、表示する。
 // console.log(ulElement.children[2].textContent);
 
@@ -54,8 +60,8 @@ btnAddNode.addEventListener('click', function() {
   divNo.setAttribute('id', btnCount);
 
   // 削除ボタンにもid名付与(後で、削除できるようにするためだが、これではダメかも)
-  const deleteNo = clone.getElementById('btnDelete');
-  deleteNo.setAttribute('id', 'btnDelete' + btnCount);
+  var btnDelete = clone.getElementById('btnDelete');
+  // deleteNo.setAttribute('id', 'btnDelete' + btnCount);
 
   // div要素の子要素に、template(の内容)を追加する。
   document.getElementById('addNode').appendChild(clone);
@@ -63,9 +69,36 @@ btnAddNode.addEventListener('click', function() {
   // divの子要素の数カウント(テキストボックス他のカウント)
   let childElementCount = divElement.childElementCount;
   console.log('子要素の数:' + childElementCount);
+
+  // addNodeの子要素を取得(テキストボックス他のカウント)
+  let childNode = document.getElementById('addNode').children;
+  console.log(childNode);
+
+  // 1行目の削除ボタンの要素を取得
+  console.log(childNode[0].children[4]);
+
+  console.log(btnDelete);
 });
 
-const target = document.getElementById(btnCount);
+btnDeleteNode.addEventListener('click', function() {
+  console.log('削除ボタンが押されました');
+
+  // 削除ボタンを押した回数に応じて、削除する要素を指定する。
+  const target = document.getElementById(btnCount);
+  target.parentNode.removeChild(target);
+
+  btnCount = btnCount - 1;
+
+});
+
+// 各行の削除ボタンが有効かどうか確認する。
+if (btnDelete != null) {
+  btnDelete.addEventListener('click', function() {
+  console.log('削除ボタンが押されました');
+  });
+} else {
+  console.log('btnDeleteがnullです');
+};
 
 
 let btnAddNode02 = document.getElementById('btnAddNode02');
