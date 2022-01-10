@@ -47,9 +47,9 @@ btnAddNode.addEventListener('click', function() {
   btnCount = btnCount + 1;
   console.log('ボタンが押されました' + btnCount + '回目');
 
-  // templateの内容を取得し、有効にする。
-  var template = document.getElementById('template');
-  var content = template.content;
+  // templeteの内容を取得し、有効にする。
+  var templete = document.getElementById('templete');
+  var content = templete.content;
   var clone = document.importNode(content, true);
 
   // ナンバリング(ボタンを押した回数をもとに、ナンバリングする)
@@ -63,7 +63,7 @@ btnAddNode.addEventListener('click', function() {
   var btnDelete = clone.getElementById('btnDelete');
   // deleteNo.setAttribute('id', 'btnDelete' + btnCount);
 
-  // div要素の子要素に、template(の内容)を追加する。
+  // div要素の子要素に、templete(の内容)を追加する。
   document.getElementById('addNode').appendChild(clone);
 
   // divの子要素の数カウント(テキストボックス他のカウント)
@@ -103,12 +103,12 @@ if (btnDelete != null) {
 
 let btnAddNode02 = document.getElementById('btnAddNode02');
 
-// templateを使って、テキストを変更する。
+// templeteを使って、テキストを変更する。
 btnAddNode02.addEventListener('click', function() {
   console.log('ボタンが押されました！');
 
-  const template02 = document.getElementById('template02');
-  const content02 = template02.content;
+  const templete02 = document.getElementById('templete02');
+  const content02 = templete02.content;
 
   const clone02 = document.importNode(content02, true);
 
