@@ -91,6 +91,8 @@ btnDeleteNode.addEventListener('click', function() {
 
 });
 
+
+// 20220111ここから
 // 各行の削除ボタンが有効かどうか確認する。
 if (btnDelete != null) {
   btnDelete.addEventListener('click', function() {
@@ -99,6 +101,29 @@ if (btnDelete != null) {
 } else {
   console.log('btnDeleteがnullです');
 };
+
+// tableの要素取得
+var tableElement = document.getElementById('table');
+
+// tableの行の要素取得
+var rowsElement = tableElement.rows;
+
+// 行数(タイトル・合計含む)
+console.log(rowsElement.length);
+
+// 参考：2行目の2列目(「導入」行の「分」列)の値
+console.log(rowsElement[1].cells[1].textContent);
+
+// 分の合計を計算
+var sumMin = 0;
+for (let i = 1; i < (rowsElement.length - 1); i++) {
+  var minValue = Number(rowsElement[i].cells[1].textContent);
+  var sumMin = sumMin + minValue;
+};
+
+// 合計をtebleの合計行に表示
+rowsElement[5].cells[1].textContent = sumMin;
+// 20220111ここまで
 
 
 let btnAddNode02 = document.getElementById('btnAddNode02');
