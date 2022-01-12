@@ -125,6 +125,8 @@ for (let i = 1; i < (rowsElement.length - 1); i++) {
 rowsElement[5].cells[1].textContent = sumMin;
 // 20220111ここまで
 
+// 参考：2行目の2列目(「導入」行の「秒」列)の値
+console.log(rowsElement[1].cells[2].textContent);
 
 let btnAddNode02 = document.getElementById('btnAddNode02');
 
