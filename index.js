@@ -92,7 +92,6 @@ btnDeleteNode.addEventListener('click', function() {
 });
 
 
-// 20220111ここから
 // 各行の削除ボタンが有効かどうか確認する。
 if (btnDelete != null) {
   btnDelete.addEventListener('click', function() {
@@ -108,11 +107,14 @@ var tableElement = document.getElementById('table');
 // tableの行の要素取得
 var rowsElement = tableElement.rows;
 
-// 行数(タイトル・合計含む)
-console.log(rowsElement.length);
+// 参考：行数(タイトル・合計含む)
+// console.log(rowsElement.length);
 
 // 参考：2行目の2列目(「導入」行の「分」列)の値
-console.log(rowsElement[1].cells[1].textContent);
+// console.log(rowsElement[1].cells[1].textContent);
+
+// 参考：2行目の3列目(「導入」行の「秒」列)の値
+// console.log(rowsElement[1].cells[2].textContent);
 
 // 分の合計を計算
 var sumMin = 0;
@@ -121,12 +123,26 @@ for (let i = 1; i < (rowsElement.length - 1); i++) {
   var sumMin = sumMin + minValue;
 };
 
-// 合計をtebleの合計行に表示
-rowsElement[5].cells[1].textContent = sumMin;
-// 20220111ここまで
+// 秒の合計を計算
+var sumSec = 0;
+for (let i = 1; i < (rowsElement.length - 1); i++) {
+  var secValue = Number(rowsElement[i].cells[2].textContent);
+  var sumSec = sumSec + secValue;
+};
 
-// 参考：2行目の2列目(「導入」行の「秒」列)の値
-console.log(rowsElement[1].cells[2].textContent);
+// 秒を分と秒に分ける
+// 分を計算
+let secMin = Math.floor(sumSec / 60);
+
+// 残りの秒を計算
+let secRem = sumSec % 60;
+
+// 分の合計を計算
+sumMin = sumMin + secMin;
+
+// 合計をtebleに表示
+rowsElement[5].cells[1].textContent = sumMin;
+rowsElement[5].cells[2].textContent = secRem;
 
 let btnAddNode02 = document.getElementById('btnAddNode02');
 
