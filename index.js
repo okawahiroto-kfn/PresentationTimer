@@ -4,6 +4,7 @@ let ulElement = document.getElementById('list');
 
 let btnAddNode = document.getElementById('btnAddNode');
 let divElement = document.getElementById('addNode');
+let btnSet = document.getElementById('btnSet');
 
 let btnDelete = document.getElementById('btnDelete');
 console.log(btnDelete);
@@ -53,7 +54,7 @@ btnAddNode.addEventListener('click', function() {
   var clone = document.importNode(content, true);
 
   // ナンバリング(ボタンを押した回数をもとに、ナンバリングする)
-  clone.getElementById('itemNumber').innerText = btnCount + '.';
+  clone.getElementById('itemNumber').innerText = btnCount + 1 + '.';
 
   // 各行ごとのid名付与(後で、削除できるようにするため)
   const divNo = clone.querySelector('div');
@@ -91,6 +92,31 @@ btnDeleteNode.addEventListener('click', function() {
 
 });
 
+
+btnSet.addEventListener('click', function() {
+  console.log('セットボタンが押されました');
+  console.log(addNode.children);
+  addNode.children.disabled = true;
+});
+
+var idx = 1;
+function addElement() {
+  // 要素を作成する。
+  var element = document.createElement('button');
+  element.innerText = 'No.' + idx;
+  idx++;
+  // 要素にクリックイベントを追加する。
+  element.onclick = function() {
+    element.innerText += 'クリックされました';
+  };
+
+  // 要素を追加する「親要素」を指定する。
+  var parent = document.getElementById('parent');
+  // 要素を追加する。
+  parent.appendChild(element);
+  // 次の要素を開業して追加するためにbr要素を追加する。
+  parent.appendChild(document.createElement('br'));
+};
 
 // 各行の削除ボタンが有効かどうか確認する。
 if (btnDelete != null) {
