@@ -16,15 +16,35 @@ let btnCount = 0;
 btn.addEventListener('click', function() {
   console.log('ボタンが押されました！');
 
+  // 20220116
+  // 複数の要素を作成する。
+  let fragment = document.createDocumentFragment();
+
   // ul要素の子要素に、li要素を追加する。
   let childNode = document.createElement('li');
+
+  // ボタンを追加する。
+  let childBtn = document.createElement('button');
 
   // li要素のテキストに、テキストボックスのテキストを入れる。
   childNode.textContent = inputText.value;
   // テキストボックスを空欄にする。
   inputText.value = '';
   // ul要素の子要素に、li要素を追加する。
-  ulElement.appendChild(childNode);
+  //  ulElement.appendChild(childNode);
+
+  // ul要素の子要素に、li要素を追加する。
+  childBtn.textContent = '削除';
+
+//  ulElement.appendChild(childBtn);
+
+  //　li要素と、ボタン要素を追加する。(改行されてしまう)
+  fragment.append(childNode);
+  fragment.append(childBtn);
+
+  console.log(fragment);
+
+  ulElement.appendChild(fragment);
 
   // li要素の数を数える。
   let childElementCount = ulElement.childElementCount;
