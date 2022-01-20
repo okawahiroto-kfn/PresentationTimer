@@ -60,6 +60,7 @@ addTableBtn.addEventListener('click', function() {
   console.log('tableの列数' + tableCelllength);
 });
 
+// ※うまく削除されていない。先頭行が削除されている。
 function clickAlert() {
   console.log('削除ボタンが押されました');
   btnCount--;
