@@ -49,8 +49,15 @@ addTableBtn.addEventListener('click', function() {
 
   console.log(btnCount);
 
-
   itemtext.value = '';
+
+  // tableの行数取得
+  let tableRowlength = document.getElementById('table').rows.length;
+  console.log('tableの行数' + tableRowlength);
+
+  // tableの列数取得
+  let tableCelllength = document.getElementById('table').rows[0].cells.length;
+  console.log('tableの列数' + tableCelllength);
 });
 
 function clickAlert() {
