@@ -4,7 +4,7 @@ let total = document.getElementById('total');
 
 let sumCells = 0;
 
-check.addEventListener('click', function() {
+btnSum.addEventListener('click', function() {
   console.log('checkボタンが押されました');
   console.log(table);
   console.log(table.rows);
