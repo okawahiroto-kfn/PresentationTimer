@@ -1,6 +1,7 @@
 let check = document.getElementById('btnSum');
 let table = document.getElementById('table');
 let total = document.getElementById('total');
+let btnDelete = document.getElementById('btnDelete');
 
 let sumCells = 0;
 
@@ -18,3 +19,12 @@ btnSum.addEventListener('click', function() {
   total.innerText = sumCells;
   sumCells = 0;
 });
+
+function clickDelete() {
+  console.log('deleteボタンが押されました');
+  console.log(btnDelete);
+  console.log(btnDelete.parentNode.parentNode.cells[1].innerText);
+  console.log(btnDelete.parentNode);
+  console.log(btnDelete.parentNode.parentNode);
+
+};
