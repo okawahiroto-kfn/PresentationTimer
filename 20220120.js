@@ -1,4 +1,4 @@
-let check = document.getElementById('check');
+let check = document.getElementById('btnSum');
 let table = document.getElementById('table');
 let total = document.getElementById('total');
 
@@ -16,4 +16,5 @@ check.addEventListener('click', function() {
   };
   console.log(sumCells);
   total.innerText = sumCells;
+  sumCells = 0;
 });
