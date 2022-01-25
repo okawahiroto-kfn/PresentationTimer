@@ -66,6 +66,7 @@ function clickDelete(ele) {
   let row = table.rows[i];
   row.setAttribute('id', i);
 
+  // 項目欄のナンバリング
   row.cells[0].innerText = i + '.';
 
   // 削除ボタンにidを付与
