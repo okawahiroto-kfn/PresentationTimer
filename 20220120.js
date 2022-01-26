@@ -59,6 +59,15 @@ btnInput.addEventListener('click', function() {
   sumCells = sumCells + Number(table.rows[i].cells[1].innerText);
   total.innerText = sumCells;
   };
+
+  // 各行の時間の割合を計算(途中)
+  // tableの行数分ループ
+  for (let i = 1; i < (table.rows.length - 1); i++) {
+
+  let pct = table.rows[i].cells[1].innerText / sumCells * 100;
+  console.log(pct);
+  console.log(360 * pct / 100);
+  };
 });
 
 // 削除ボタンが押された時の処理
