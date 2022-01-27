@@ -55,18 +55,33 @@ btnInput.addEventListener('click', function() {
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
+  // trにidを付与
+  let row = table.rows[i];
+  row.setAttribute('id', i);
+
+  // 項目欄のナンバリング
+  row.cells[0].innerText = i + '.';
+
   // 合計計算
   sumCells = sumCells + Number(table.rows[i].cells[1].innerText);
   total.innerText = sumCells;
   };
 
-  // 各行の時間の割合を計算(途中)
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
+  // 各行の時間の割合を計算
   let pct = table.rows[i].cells[1].innerText / sumCells * 100;
-  console.log(pct);
-  console.log(360 * pct / 100);
+  console.log(pct + '%');
+
+  // 各行の時間の割合を角度に変換
+  let kakudo = Math.round(360 * pct / 100);
+  console.log(kakudo + '°');
+
+  // 60°になったときは、OK!と表示(360割る6が60°になることを確認)
+  if (kakudo == 60) {
+    console.log('OK!');
+    };
   };
 });
 
@@ -98,7 +113,7 @@ function clickDelete(ele) {
   row.setAttribute('id', i);
 
   // 項目欄のナンバリング
-  // row.cells[0].innerText = i + '.';
+  row.cells[0].innerText = i + '.';
 
   // 削除ボタンにidを付与
   let dButton = table.rows[i].cells[2].children[0];
