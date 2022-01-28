@@ -7,6 +7,17 @@ let itemTime = document.getElementById('itemTime');
 
 let sumCells = 0;
 
+// canvas表示用(円グラフ)
+let canvas = document.querySelector('#canvas');
+let context = canvas.getContext('2d');
+
+// タイマー初期表示
+context.beginPath();
+context.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
+context.strokeStyle = 'gray';
+context.lineWidth = 40;
+context.stroke();
+
 window.onload = function() {
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
