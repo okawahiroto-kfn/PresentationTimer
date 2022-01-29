@@ -1,0 +1,19 @@
+#canvas-wrapper {
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+}
+
+#canvas-text {
+  top: 0;
+  left: 0;
+
+  position: absolute;
+}
