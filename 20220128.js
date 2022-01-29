@@ -4,6 +4,7 @@ let total = document.getElementById('total');
 let btnDelete = document.getElementById('btnDelete');
 let itemText = document.getElementById('itemText');
 let itemTime = document.getElementById('itemTime');
+let setButton = document.getElementById('setButton');
 
 let sumCells = 0;
 
@@ -136,3 +137,24 @@ function clickDelete(ele) {
   };
 };
 
+setButton.addEventListener('click', function() {
+  console.log('setボタンが押されました');
+
+  // tableの行数分ループ
+  for (let i = 1; i < (table.rows.length - 1); i++) {
+
+  // 各行の時間の割合を計算
+  let pct = table.rows[i].cells[1].innerText / sumCells;
+  console.log(pct + '%');
+
+  // 各行の時間の割合を角度に変換
+  let kakudo = Math.round(360 * pct / 100);
+
+  console.log(kakudo + '°');
+  context.beginPath();
+  context.arc(150, 150, 100, 0 * Math.PI / 180, (360 * pct) * Math.PI /180, false);
+  context.strokeStyle = 'lightskyblue';
+  context.lineWidth = 40;
+  context.stroke();
+  };
+});
