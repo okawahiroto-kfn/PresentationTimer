@@ -140,20 +140,35 @@ function clickDelete(ele) {
 setButton.addEventListener('click', function() {
   console.log('setボタンが押されました');
 
+  // パーセントの合計
+  let pctGoukei = 0;
+
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
   // 各行の時間の割合を計算
   let pct = table.rows[i].cells[1].innerText / sumCells;
-  console.log(pct + '%');
+  console.log(pct * 100 + '%');
+
+  // パーセントの合計を計算
+  pctGoukei = pctGoukei + pct;
+  console.log(pctGoukei);
 
   // 各行の時間の割合を角度に変換
-  let kakudo = Math.round(360 * pct / 100);
+  let kakudo = Math.round(360 * pct);
 
   console.log(kakudo + '°');
+
+  //割合に応じて、円を描画(2つだとOK)
   context.beginPath();
   context.arc(150, 150, 100, 0 * Math.PI / 180, (360 * pct) * Math.PI /180, false);
   context.strokeStyle = 'lightskyblue';
+  context.lineWidth = 40;
+  context.stroke();
+
+  context.beginPath();
+  context.arc(150, 150, 100, (360 * (pctGoukei - pct)) * Math.PI /180, (360 * (pctGoukei)) * Math.PI /180, false);
+  context.strokeStyle = 'lightcoral';
   context.lineWidth = 40;
   context.stroke();
   };
