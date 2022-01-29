@@ -4,18 +4,15 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="20220128.css">
   <title>Document</title>
 </head>
 <body>
-  <div id="canvas-wrapper">
-    <canvas id="canvas" width="300" height="300"></canvas>
-    <canvas id="canvas-text" width="300" height="300"></canvas>
-  </div>
-
   <input type="text" name="" id="itemText">
-  <input type="text" name="" id="itemTime">
+  <input type="text" name="" id="itemTime" pattern="^[0-9A-Za-z]+$">
   <button id="btnInput">入力</button>
 
+  <br>
   <br>
 
   <table id="table" border="1" style="border-collapse: collapse">
@@ -45,6 +42,15 @@
         <td></td>
       </tr>
   </table>
+
+  <br>
+
+  <input type="button" id="setButton" value="SET">
+
+  <div id="canvas-wrapper">
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <canvas id="canvas-text" width="300" height="300"></canvas>
+  </div>
 
   <script src="20220128.js"></script>
 </body>
