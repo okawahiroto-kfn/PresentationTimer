@@ -143,11 +143,6 @@ setButton.addEventListener('click', function() {
   // パーセントの合計
   let pctGoukei = 0;
 
-  // 色をランダムに設定
-  let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
-  let randomColor02 = "#" + Math.floor(Math.random() * 16777215).toString(16);
-  let randomColor03 = "#" + Math.floor(Math.random() * 16777215).toString(16);
-
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
@@ -156,41 +151,20 @@ setButton.addEventListener('click', function() {
 
   // パーセントの合計を計算
   pctGoukei = pctGoukei + pct;
-  // console.log(pctGoukei);
 
-  // 各行の時間の割合を角度に変換
-  let kakudo = Math.round(360 * pct);
+  // 円の描画開始・終了の角度
+  console.log(i + '---');
+  console.log('開始：pctGoukei - pct:' + 360 * (pctGoukei - pct) + '°');
+  console.log('終了：pctGoukei      :' + 360 * pctGoukei + '°');
 
-  //割合に応じて、円を描画(2つだとOK)
-  // context.beginPath();
-  // context.arc(150, 150, 100, 0 * Math.PI / 180, (360 * pct) * Math.PI /180, false);
-  // context.strokeStyle = 'lightskyblue';
-  // context.lineWidth = 40;
-  // context.stroke();
+  // 色をランダムに設定
+  let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
 
-  // 円の描画開始・終了の角度の設定(途中)
-  console.log('---');
-  console.log(pct);
-  console.log(pctGoukei);
-  console.log((pctGoukei - pct));
-
-  // これだと、最後のpctGoukei = 1になるので、終点までいっている？
+  // 円グラフを描画
   context.beginPath();
   context.arc(150, 150, 100, (360 * (pctGoukei - pct)) * Math.PI /180, (360 * pctGoukei) * Math.PI /180, false);
   context.strokeStyle = randomColor;
   context.lineWidth = 40;
   context.stroke();
-
-  // context.beginPath();
-  // context.arc(150, 150, 100, (360 * 0.25) * Math.PI /180, (360 * 0.5) * Math.PI /180, false);
-  // context.strokeStyle = randomColor02;
-  // context.lineWidth = 40;
-  // context.stroke();
-
-  // context.beginPath();
-  // context.arc(150, 150, 100, (360 * 0.75) * Math.PI /180, (360 * 1.0) * Math.PI /180, false);
-  // context.strokeStyle = randomColor03;
-  // context.lineWidth = 40;
-  // context.stroke();
   };
 });
