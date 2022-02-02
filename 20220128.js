@@ -72,7 +72,7 @@ btnInput.addEventListener('click', function() {
   row.setAttribute('id', i);
 
   // 項目欄のナンバリング
-  row.cells[0].innerText = i + '.';
+  // row.cells[0].innerText = i + '.';
 
   // 合計計算
   sumCells = sumCells + Number(table.rows[i].cells[1].innerText);
@@ -125,7 +125,7 @@ function clickDelete(ele) {
   row.setAttribute('id', i);
 
   // 項目欄のナンバリング
-  row.cells[0].innerText = i + '.';
+  // row.cells[0].innerText = i + '.';
 
   // 削除ボタンにidを付与
   let dButton = table.rows[i].cells[2].children[0];
