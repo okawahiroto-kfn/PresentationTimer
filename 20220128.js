@@ -4,6 +4,7 @@ let total = document.getElementById('total');
 let btnDelete = document.getElementById('btnDelete');
 let itemText = document.getElementById('itemText');
 let itemTime = document.getElementById('itemTime');
+let itemSec = document.getElementById('itemSec');
 let setButton = document.getElementById('setButton');
 
 let sumCells = 0;
@@ -27,6 +28,9 @@ window.onload = function() {
   // 項目時間入力欄を初期化
   itemTime.value = '';
 
+  // 項目時間入力欄を初期化
+  itemSec.value = '';
+
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
@@ -35,11 +39,11 @@ window.onload = function() {
   row.setAttribute('id', i);
 
   // 削除ボタンにidを付与
-  let dButton = table.rows[i].cells[2].children[0];
+  let dButton = table.rows[i].cells[3].children[0];
   dButton.setAttribute('id', i);
 
   // 合計計算
-  sumCells = sumCells + Number(table.rows[i].cells[1].innerText);
+  sumCells = sumCells + Number(table.rows[i].cells[2].innerText);
   total.innerText = sumCells;
   };
 };
@@ -58,6 +62,7 @@ btnInput.addEventListener('click', function() {
   let newCell01 = newRow.insertCell();
   let newCell02 = newRow.insertCell();
   let newCell03 = newRow.insertCell();
+  let newCell04 = newRow.insertCell();
 
   // 項目名を表示
   newCell01.innerText = itemText.value;
@@ -66,13 +71,13 @@ btnInput.addEventListener('click', function() {
   itemText.value = '';
 
   // 時間欄に入力された時間を追加
-  newCell02.innerText = itemTime.value;
+  newCell03.innerText = itemSec.value;
 
   // 項目時間入力欄を初期化
-  itemTime.value = '';
+  itemSec.value = '';
 
   // 削除ボタンを追加
-  newCell03.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)">削除</button>';
+  newCell04.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)">削除</button>';
 
   // ループして合計を出す前に0にする。
   sumCells = 0;
@@ -88,7 +93,7 @@ btnInput.addEventListener('click', function() {
   // row.cells[0].innerText = i + '.';
 
   // 合計計算
-  sumCells = sumCells + Number(table.rows[i].cells[1].innerText);
+  sumCells = sumCells + Number(table.rows[i].cells[2].innerText);
   total.innerText = sumCells;
   };
 
@@ -96,7 +101,7 @@ btnInput.addEventListener('click', function() {
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
   // 各行の時間の割合を計算
-  let pct = table.rows[i].cells[1].innerText / sumCells * 100;
+  let pct = table.rows[i].cells[2].innerText / sumCells * 100;
   console.log(pct + '%');
 
   // 各行の時間の割合を角度に変換
@@ -121,7 +126,7 @@ function clickDelete(ele) {
   let row = document.getElementsByTagName('tr')[id_value];
 
   // 合計を減算
-  sumCells = sumCells - Number(row.cells[1].innerText);
+  sumCells = sumCells - Number(row.cells[2].innerText);
   total.innerText = sumCells;
 
   // tableから削除
@@ -141,11 +146,11 @@ function clickDelete(ele) {
   // row.cells[0].innerText = i + '.';
 
   // 削除ボタンにidを付与
-  let dButton = table.rows[i].cells[2].children[0];
+  let dButton = table.rows[i].cells[3].children[0];
   dButton.setAttribute('id', i);
 
   // 合計計算
-  sumCells = sumCells + Number(table.rows[i].cells[1].innerText);
+  sumCells = sumCells + Number(table.rows[i].cells[2].innerText);
   total.innerText = sumCells;
   };
 };
@@ -160,7 +165,7 @@ setButton.addEventListener('click', function() {
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
   // 各行の時間の割合を計算
-  let pct = table.rows[i].cells[1].innerText / sumCells;
+  let pct = table.rows[i].cells[2].innerText / sumCells;
 
   // パーセントの合計を計算
   pctGoukei = pctGoukei + pct;
