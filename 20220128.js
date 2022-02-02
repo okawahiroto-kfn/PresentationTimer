@@ -71,7 +71,9 @@ btnInput.addEventListener('click', function() {
   itemText.value = '';
 
   // 時間欄に入力された時間を追加
-  newCell03.innerText = itemSec.value;
+  // 20220203メモ：セル追加時にテキストを右揃えにできない。太字はできている。
+  newCell03.innerHTML = '<td align="right"><b>' + itemSec.value + '</b></td>';
+  // itemSec.value;
 
   // 項目時間入力欄を初期化
   itemSec.value = '';
