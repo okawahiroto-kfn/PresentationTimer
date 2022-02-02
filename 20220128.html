@@ -9,7 +9,8 @@
 </head>
 <body>
   <input type="text" name="" id="itemText">
-  <input type="text" name="" id="itemTime" pattern="^[0-9A-Za-z]+$">
+  <input type="number" name="" id="itemTime" pattern="^[0-9A-Za-z]+$">
+  <input type="number" name="" id="itemSec" pattern="^[0-9A-Za-z]+$">
   <button id="btnInput">入力</button>
 
   <br>
@@ -18,7 +19,8 @@
   <table id="table" border="1" style="border-collapse: collapse">
       <tr>
         <th>項目</th>
-        <th>時間</th>
+        <th>分</th>
+        <th>秒</th>
         <th>削除</th>
       </tr>
       <!-- <tr>
@@ -38,6 +40,7 @@
       </tr> -->
       <tr>
         <td>合計</td>
+        <td></td>
         <td id="total"></td>
         <td></td>
       </tr>
