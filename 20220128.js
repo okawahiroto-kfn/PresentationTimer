@@ -20,6 +20,13 @@ context.lineWidth = 40;
 context.stroke();
 
 window.onload = function() {
+
+  // 項目入力欄を初期化
+  itemText.value = '';
+
+  // 項目時間入力欄を初期化
+  itemTime.value = '';
+
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
@@ -52,11 +59,17 @@ btnInput.addEventListener('click', function() {
   let newCell02 = newRow.insertCell();
   let newCell03 = newRow.insertCell();
 
-  // 項目欄のナンバリング
+  // 項目名を表示
   newCell01.innerText = itemText.value;
+
+  // 項目入力欄を初期化
+  itemText.value = '';
 
   // 時間欄に入力された時間を追加
   newCell02.innerText = itemTime.value;
+
+  // 項目時間入力欄を初期化
+  itemTime.value = '';
 
   // 削除ボタンを追加
   newCell03.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)">削除</button>';
