@@ -3,7 +3,7 @@ let table = document.getElementById('table');
 let total = document.getElementById('total');
 let btnDelete = document.getElementById('btnDelete');
 let itemText = document.getElementById('itemText');
-let itemTime = document.getElementById('itemTime');
+let itemMin = document.getElementById('itemMin');
 let itemSec = document.getElementById('itemSec');
 let setButton = document.getElementById('setButton');
 
@@ -26,7 +26,7 @@ window.onload = function() {
   itemText.value = '';
 
   // 項目時間入力欄を初期化
-  itemTime.value = '';
+  itemMin.value = '';
 
   // 項目時間入力欄を初期化
   itemSec.value = '';
@@ -70,12 +70,20 @@ btnInput.addEventListener('click', function() {
   // 項目入力欄を初期化
   itemText.value = '';
 
-  // 時間欄に入力された時間を追加
+  // 分を表示
+  newCell02.innerHTML = '<td>' + itemMin.value + '</td>';
+  itemMin.value = '';
+
+  // 分入力欄を初期化
+  itemMin.value = '';
+
+
+  // 秒欄に入力された時間を追加
   // 20220203メモ：セル追加時にテキストを右揃えにできない。太字はできている。
-  newCell03.innerHTML = '<td align="right"><b>' + itemSec.value + '</b></td>';
+  newCell03.innerHTML = '<td align="right">' + itemSec.value + '</td>';
   // itemSec.value;
 
-  // 項目時間入力欄を初期化
+  // 秒入力欄を初期化
   itemSec.value = '';
 
   // 削除ボタンを追加
