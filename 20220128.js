@@ -3,8 +3,8 @@ let table = document.getElementById('table');
 let total = document.getElementById('total');
 let btnDelete = document.getElementById('btnDelete');
 let itemText = document.getElementById('itemText');
-let itemTime = document.getElementById('itemTime');
-let itemSec = document.getElementById('itemSec');
+let timerMinute = document.getElementById('timerMinute');
+let timerSecond = document.getElementById('timerSecond');
 let setButton = document.getElementById('setButton');
 
 let sumCells = 0;
@@ -20,33 +20,33 @@ context.strokeStyle = 'gray';
 context.lineWidth = 40;
 context.stroke();
 
-window.onload = function() {
+// window.onload = function() {
 
-  // 項目入力欄を初期化
-  itemText.value = '';
+//   // 項目入力欄を初期化
+//   itemText.value = '';
 
-  // 項目時間入力欄を初期化
-  itemTime.value = '';
+//   // 項目時間入力欄を初期化
+//   timerMinute.value = '';
 
-  // 項目時間入力欄を初期化
-  itemSec.value = '';
+//   // 項目時間入力欄を初期化
+//   timerSecond.value = '';
 
-  // tableの行数分ループ
-  for (let i = 1; i < (table.rows.length - 1); i++) {
+//   // tableの行数分ループ
+//   for (let i = 1; i < (table.rows.length - 1); i++) {
 
-  // trにidを付与
-  let row = table.rows[i];
-  row.setAttribute('id', i);
+//   // trにidを付与
+//   let row = table.rows[i];
+//   row.setAttribute('id', i);
 
-  // 削除ボタンにidを付与
-  let dButton = table.rows[i].cells[3].children[0];
-  dButton.setAttribute('id', i);
+//   // 削除ボタンにidを付与
+//   let dButton = table.rows[i].cells[3].children[0];
+//   dButton.setAttribute('id', i);
 
-  // 合計計算
-  sumCells = sumCells + Number(table.rows[i].cells[2].innerText);
-  total.innerText = sumCells;
-  };
-};
+//   // 合計計算
+//   sumCells = sumCells + Number(table.rows[i].cells[2].innerText);
+//   total.innerText = sumCells;
+//   };
+// };
 
 // 入力ボタンが押された時の処理
 btnInput.addEventListener('click', function() {
@@ -67,16 +67,13 @@ btnInput.addEventListener('click', function() {
   // 項目名を表示
   newCell01.innerText = itemText.value;
 
-  // 項目入力欄を初期化
-  itemText.value = '';
+  // 分を表示
+  newCell02.innerText = timerMinute.value;
+  newCell02.style.textAlign = 'right';
 
-  // 時間欄に入力された時間を追加
-  // 20220203メモ：セル追加時にテキストを右揃えにできない。太字はできている。
-  newCell03.innerHTML = '<td align="right"><b>' + itemSec.value + '</b></td>';
-  // itemSec.value;
-
-  // 項目時間入力欄を初期化
-  itemSec.value = '';
+  // 秒を表示
+  newCell03.innerText = timerSecond.value;
+  newCell03.style.textAlign = 'right';
 
   // 削除ボタンを追加
   newCell04.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)">削除</button>';
@@ -110,10 +107,6 @@ btnInput.addEventListener('click', function() {
   let kakudo = Math.round(360 * pct / 100);
   console.log(kakudo + '°');
 
-  // 60°になったときは、OK!と表示(360割る6が60°になることを確認)
-  if (kakudo == 60) {
-    console.log('OK!');
-    };
   };
 });
 
@@ -157,8 +150,14 @@ function clickDelete(ele) {
   };
 };
 
+// setボタンが押された時の処理
 setButton.addEventListener('click', function() {
   console.log('setボタンが押されました');
+
+  if (sumCells == 0) {
+    alert('時間を入力してください(1秒以上)');
+    return;
+  };
 
   // パーセントの合計
   let pctGoukei = 0;
