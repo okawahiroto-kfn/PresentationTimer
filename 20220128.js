@@ -3,8 +3,10 @@ let table = document.getElementById('table');
 let total = document.getElementById('total');
 let btnDelete = document.getElementById('btnDelete');
 let itemText = document.getElementById('itemText');
+
 let timerMinute = document.getElementById('timerMinute');
 let timerSecond = document.getElementById('timerSecond');
+
 let setButton = document.getElementById('setButton');
 
 let sumCells = 0;
