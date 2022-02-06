@@ -1,3 +1,9 @@
+/* Bulmaのインポート */
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
+
+/* inputの横幅を指定する */
+input[type="text"] { width: 15em; }
+
 #canvas-wrapper {
   width: 300px;
   height: 300px;

@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- リセットCSS -->
   <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <!-- Bulmaのインポート -->
+  <script src="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"></script>
   <link rel="stylesheet" href="20220128.css">
   <title>Document</title>
 </head>
@@ -18,8 +21,10 @@
   </div>
 
   <br>
-  <input type="text" name="" id="itemText" placeholder="項目名">
-  <select id="timerMinute">
+
+  <input type="text" name="" id="itemText" placeholder="項目名" class="input">
+
+  <select id="timerMinute" class="select">
     <option value="0" selected>0</option>
     <option value="1">1</option>
     <option value="2">2</option>
@@ -80,9 +85,11 @@
     <option value="57">57</option>
     <option value="58">58</option>
     <option value="59">59</option>
-  </select>min.
+  </select>
+  <!-- 文字のサイズ、下揃え後からやる。 -->
+  <span class="content is-large">min</span>
 
-  <select id="timerSecond">
+  <select id="timerSecond" class="select">
     <option value="0" selected>0</option>
     <option value="1">1</option>
     <option value="2">2</option>
@@ -143,15 +150,17 @@
     <option value="57">57</option>
     <option value="58">58</option>
     <option value="59">59</option>
-  </select>sec.
+  </select>
+    <!-- 文字のサイズ、下揃え後からやる。 -->
+    <span class="content is-large">sec</span>
 
-  <button id="btnInput" class="bg-cyan-500 hover:bg-cyan-600">入力</button>
+  <button id="btnInput" class="button is-link">入力</button>
 
   <br>
   <br>
 
   <!-- <table id="table"> -->
-  <table id="table" border="1" style="border-collapse: collapse">
+  <table class="table" id="table">
       <tr>
         <th>Item</th>
         <th>min</th>
@@ -183,7 +192,7 @@
 
   <br>
 
-  <input type="button" id="setButton" value="SET">
+  <input type="button" id="setButton" value="SET" class="button is-primary">
 
   <script src="20220128.js"></script>
 </body>
