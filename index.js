@@ -12,7 +12,9 @@ let setButton = document.getElementById('setButton');
 
 let sumMin = 0;
 let sumSec = 0;
+let secToMin = 0;
 let minToSec = 0;
+let allSecTotal = 0;
 
 // canvas表示用(円グラフ)
 let canvas = document.querySelector('#canvas');
@@ -74,12 +76,17 @@ btnInput.addEventListener('click', function() {
 
   // 合計計算
   sumMin = sumMin + Number(table.rows[i].cells[1].innerText);
-  console.log('分合計' + sumMin);
-  totalMin.innerText = sumMin;
-
   sumSec = sumSec + Number(table.rows[i].cells[2].innerText);
-  totalSec.innerText = sumSec;
   };
+
+  minToSec = sumMin * 60;
+  allSecTotal = (minToSec + sumSec);
+
+  let min = Math.floor(allSecTotal / 60);
+  let sec = allSecTotal % 60;
+
+  totalMin.innerText = min;
+  totalSec.innerText = sec;
 
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
@@ -105,14 +112,11 @@ function clickDelete(ele) {
   // tableの各行の要素を取得
   let row = document.getElementsByTagName('tr')[id_value];
 
-  // 合計を減算
-  sumSec = sumSec - Number(row.cells[2].innerText);
-  sumSec.innerText = sumSec;
-
   // tableから削除
   row.remove();
 
   // ループして合計を出す前に0にする。
+  sumMin = 0;
   sumSec = 0;
 
   // tableの行数分ループしてidを更新
@@ -130,9 +134,18 @@ function clickDelete(ele) {
   dButton.setAttribute('id', i);
 
   // 合計計算
+  sumMin = sumMin + Number(table.rows[i].cells[1].innerText);
   sumSec = sumSec + Number(table.rows[i].cells[2].innerText);
-  sumSec.innerText = sumSec;
   };
+
+  minToSec = sumMin * 60;
+  allSecTotal = (minToSec + sumSec);
+
+  let min = Math.floor(allSecTotal / 60);
+  let sec = allSecTotal % 60;
+
+  totalMin.innerText = min;
+  totalSec.innerText = sec;
 };
 
 // setボタンが押された時の処理
