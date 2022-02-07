@@ -78,7 +78,7 @@ btnInput.addEventListener('click', function() {
   newCell03.style.textAlign = 'right';
 
   // 削除ボタンを追加
-  newCell04.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)" class="delete is-large">削除</button>';
+  newCell04.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)" class="delete">削除</button>';
 
   // ループして合計を出す前に0にする。
   sumCells = 0;
