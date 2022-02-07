@@ -1,13 +1,21 @@
 /* Bulmaのインポート */
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
 
-/* inputの横幅を指定する */
-input[type="text"] { width: 15em; }
+body {
+  background-color: silver;
+}
+
+h1 {
+  color: black;
+  text-align: center;
+  font-weight: bold;
+}
 
 #canvas-wrapper {
   width: 300px;
   height: 300px;
   position: relative;
+  margin: 0 auto;
 }
 
 #canvas {
@@ -20,6 +28,34 @@ input[type="text"] { width: 15em; }
 #canvas-text {
   top: 0;
   left: 0;
-
   position: absolute;
+}
+
+#inputForm {
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* inputの横幅を指定する */
+input[type="text"] {
+  width: 8em;
+}
+
+.content {
+  vertical-align: bottom;
+}
+
+#btnGroup {
+  width: 370px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.table {
+  margin:auto;
+  background-color: silver;
 }
