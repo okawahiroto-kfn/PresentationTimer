@@ -1,211 +1,191 @@
-let btn = document.getElementById('btn');
-let inputText = document.getElementById('inputText');
-let ulElement = document.getElementById('list');
-
-let btnAddNode = document.getElementById('btnAddNode');
-let divElement = document.getElementById('addNode');
-let btnSet = document.getElementById('btnSet');
-
+let btnInput = document.getElementById('btnInput');
+let table = document.getElementById('table');
+let total = document.getElementById('total');
 let btnDelete = document.getElementById('btnDelete');
-console.log(btnDelete);
+let itemText = document.getElementById('itemText');
 
-const btnDeleteNode = document.getElementById('btnDeleteNode');
+let timerMinute = document.getElementById('timerMinute');
+let timerSecond = document.getElementById('timerSecond');
 
-let btnCount = 0;
+let setButton = document.getElementById('setButton');
 
-btn.addEventListener('click', function() {
-  console.log('ボタンが押されました！');
+let sumCells = 0;
 
-  // 20220116
-  // 複数の要素を作成する。
-  let fragment = document.createDocumentFragment();
+// canvas表示用(円グラフ)
+let canvas = document.querySelector('#canvas');
+let context = canvas.getContext('2d');
 
-  // ul要素の子要素に、li要素を追加する。
-  let childNode = document.createElement('li');
+// タイマー初期表示
+context.beginPath();
+context.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
+context.strokeStyle = 'gray';
+context.lineWidth = 40;
+context.stroke();
 
-  // ボタンを追加する。
-  let childBtn = document.createElement('button');
+// window.onload = function() {
 
-  // li要素のテキストに、テキストボックスのテキストを入れる。
-  childNode.textContent = inputText.value;
-  // テキストボックスを空欄にする。
-  inputText.value = '';
-  // ul要素の子要素に、li要素を追加する。
-  //  ulElement.appendChild(childNode);
+//   // 項目入力欄を初期化
+//   itemText.value = '';
 
-  // ul要素の子要素に、li要素を追加する。
-  childBtn.textContent = '削除';
+//   // 項目時間入力欄を初期化
+//   timerMinute.value = '';
 
-//  ulElement.appendChild(childBtn);
+//   // 項目時間入力欄を初期化
+//   timerSecond.value = '';
 
-  //　li要素と、ボタン要素を追加する。(改行されてしまう)
-  fragment.append(childNode);
-  fragment.append(childBtn);
+//   // tableの行数分ループ
+//   for (let i = 1; i < (table.rows.length - 1); i++) {
 
-  console.log(fragment);
+//   // trにidを付与
+//   let row = table.rows[i];
+//   row.setAttribute('id', i);
 
-  ulElement.appendChild(fragment);
+//   // 削除ボタンにidを付与
+//   let dButton = table.rows[i].cells[3].children[0];
+//   dButton.setAttribute('id', i);
 
-  // li要素の数を数える。
-  let childElementCount = ulElement.childElementCount;
+//   // 合計計算
+//   sumCells = sumCells + Number(table.rows[i].cells[2].innerText);
+//   total.innerText = sumCells;
+//   };
+// };
 
-  // for文を用いて、li要素のテキストをli要素の数だけ取得、表示する。
-  for (let i = 0; i < childElementCount; i++) {
-    console.log(ulElement.children[i].textContent);
+// 入力ボタンが押された時の処理
+btnInput.addEventListener('click', function() {
+  console.log('入力ボタンが押されました');
+
+  // 合計行の上に新しい行を追加
+  let newRow = table.insertRow(table.rows.length - 1);
+
+  // 各行にidを付与
+  newRow.setAttribute('id', table.rows.length - 2);
+
+  // セルを追加
+  let newCell01 = newRow.insertCell();
+  let newCell02 = newRow.insertCell();
+  let newCell03 = newRow.insertCell();
+  let newCell04 = newRow.insertCell();
+
+  // 項目名を表示
+  newCell01.innerText = itemText.value;
+
+  // 分を表示
+  newCell02.innerText = timerMinute.value;
+  newCell02.style.textAlign = 'right';
+
+  // 秒を表示
+  newCell03.innerText = timerSecond.value;
+  newCell03.style.textAlign = 'right';
+
+  // 削除ボタンを追加
+  newCell04.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)" class="delete">削除</button>';
+
+  // ループして合計を出す前に0にする。
+  sumCells = 0;
+
+  // tableの行数分ループ
+  for (let i = 1; i < (table.rows.length - 1); i++) {
+
+  // trにidを付与
+  let row = table.rows[i];
+  row.setAttribute('id', i);
+
+  // 項目欄のナンバリング
+  // row.cells[0].innerText = i + '.';
+
+  // 合計計算
+  sumCells = sumCells + Number(table.rows[i].cells[2].innerText);
+  total.innerText = sumCells;
   };
 
-  // li要素の数を表示する。
-  console.log(childElementCount);
+  // tableの行数分ループ
+  for (let i = 1; i < (table.rows.length - 1); i++) {
 
+  // 各行の時間の割合を計算
+  let pct = table.rows[i].cells[2].innerText / sumCells * 100;
+  console.log(pct + '%');
+
+  // 各行の時間の割合を角度に変換
+  let kakudo = Math.round(360 * pct / 100);
+  console.log(kakudo + '°');
+
+  };
 });
 
+// 削除ボタンが押された時の処理
+function clickDelete(ele) {
+  console.log('deleteボタンが押されました');
 
-// 配列を用いて、li要素の値を取得、表示する。
-// console.log(ulElement.children[2].textContent);
+  // 削除ボタンのidを取得
+  let id_value = ele.id;
 
-btnAddNode.addEventListener('click', function() {
-  // AddNodeボタンを押した回数カウント
-  btnCount = btnCount + 1;
-  console.log('ボタンが押されました' + btnCount + '回目');
+  // tableの各行の要素を取得
+  let row = document.getElementsByTagName('tr')[id_value];
 
-  // templateの内容を取得し、有効にする。
-  var template = document.getElementById('template');
-  var content = template.content;
-  var clone = document.importNode(content, true);
+  // 合計を減算
+  sumCells = sumCells - Number(row.cells[2].innerText);
+  total.innerText = sumCells;
 
-  // ナンバリング(ボタンを押した回数をもとに、ナンバリングする)
-  clone.getElementById('itemNumber').innerText = btnCount + 1 + '.';
+  // tableから削除
+  row.remove();
 
-  // 各行ごとのid名付与(後で、削除できるようにするため)
-  const divNo = clone.querySelector('div');
-  divNo.setAttribute('id', btnCount);
+  // ループして合計を出す前に0にする。
+  sumCells = 0;
 
-  // 削除ボタンにもid名付与(後で、削除できるようにするためだが、これではダメかも)
-  var btnDelete = clone.getElementById('btnDelete');
-  // deleteNo.setAttribute('id', 'btnDelete' + btnCount);
+  // tableの行数分ループしてidを更新
+  for (let i = 1; i < (table.rows.length - 1); i++) {
 
-  // div要素の子要素に、template(の内容)を追加する。
-  document.getElementById('addNode').appendChild(clone);
+  // trにidを付与
+  let row = table.rows[i];
+  row.setAttribute('id', i);
 
-  // divの子要素の数カウント(テキストボックス他のカウント)
-  let childElementCount = divElement.childElementCount;
-  console.log('子要素の数:' + childElementCount);
+  // 項目欄のナンバリング
+  // row.cells[0].innerText = i + '.';
 
-  // addNodeの子要素を取得(テキストボックス他のカウント)
-  let childNode = document.getElementById('addNode').children;
-  console.log(childNode);
+  // 削除ボタンにidを付与
+  let dButton = table.rows[i].cells[3].children[0];
+  dButton.setAttribute('id', i);
 
-  // 1行目の削除ボタンの要素を取得
-  console.log(childNode[0].children[4]);
+  // 合計計算
+  sumCells = sumCells + Number(table.rows[i].cells[2].innerText);
+  total.innerText = sumCells;
+  };
+};
 
-  console.log(btnDelete);
-});
+// setボタンが押された時の処理
+setButton.addEventListener('click', function() {
+  console.log('setボタンが押されました');
 
-btnDeleteNode.addEventListener('click', function() {
-  console.log('削除ボタンが押されました');
-
-  // 削除ボタンを押した回数に応じて、削除する要素を指定する。
-  const target = document.getElementById(btnCount);
-  target.parentNode.removeChild(target);
-
-  btnCount = btnCount - 1;
-
-});
-
-
-btnSet.addEventListener('click', function() {
-  console.log('セットボタンが押されました');
-  console.log(addNode.children);
-  addNode.children.disabled = true;
-});
-
-var idx = 1;
-function addElement() {
-  // 要素を作成する。
-  var element = document.createElement('button');
-  element.innerText = 'No.' + idx;
-  idx++;
-  // 要素にクリックイベントを追加する。
-  element.onclick = function() {
-    element.innerText += 'クリックされました';
+  if (sumCells == 0) {
+    alert('時間を入力してください(1秒以上)');
+    return;
   };
 
-  // 要素を追加する「親要素」を指定する。
-  var parent = document.getElementById('parent');
-  // 要素を追加する。
-  parent.appendChild(element);
-  // 次の要素を開業して追加するためにbr要素を追加する。
-  parent.appendChild(document.createElement('br'));
-};
+  // パーセントの合計
+  let pctGoukei = 0;
 
-// 各行の削除ボタンが有効かどうか確認する。
-if (btnDelete != null) {
-  btnDelete.addEventListener('click', function() {
-  console.log('削除ボタンが押されました');
-  });
-} else {
-  console.log('btnDeleteがnullです');
-};
+  // tableの行数分ループ
+  for (let i = 1; i < (table.rows.length - 1); i++) {
 
-// tableの要素取得
-var tableElement = document.getElementById('table');
+  // 各行の時間の割合を計算
+  let pct = table.rows[i].cells[2].innerText / sumCells;
 
-// tableの行の要素取得
-var rowsElement = tableElement.rows;
+  // パーセントの合計を計算
+  pctGoukei = pctGoukei + pct;
 
-// 参考：行数(タイトル・合計含む)
-// console.log(rowsElement.length);
+  // 円の描画開始・終了の角度
+  console.log(i + '---');
+  console.log('開始：pctGoukei - pct:' + 360 * (pctGoukei - pct) + '°');
+  console.log('終了：pctGoukei      :' + 360 * pctGoukei + '°');
 
-// 参考：2行目の2列目(「導入」行の「分」列)の値
-// console.log(rowsElement[1].cells[1].textContent);
+  // 色をランダムに設定
+  let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
 
-// 参考：2行目の3列目(「導入」行の「秒」列)の値
-// console.log(rowsElement[1].cells[2].textContent);
-
-// 分の合計を計算
-var sumMin = 0;
-for (let i = 1; i < (rowsElement.length - 1); i++) {
-  var minValue = Number(rowsElement[i].cells[1].textContent);
-  var sumMin = sumMin + minValue;
-};
-
-// 秒の合計を計算
-var sumSec = 0;
-for (let i = 1; i < (rowsElement.length - 1); i++) {
-  var secValue = Number(rowsElement[i].cells[2].textContent);
-  var sumSec = sumSec + secValue;
-};
-
-// 秒を分と秒に分ける
-// 分を計算
-let secMin = Math.floor(sumSec / 60);
-
-// 残りの秒を計算
-let secRem = sumSec % 60;
-
-// 分の合計を計算
-sumMin = sumMin + secMin;
-
-// 合計をtebleに表示
-rowsElement[5].cells[1].textContent = sumMin;
-rowsElement[5].cells[2].textContent = secRem;
-
-let btnAddNode02 = document.getElementById('btnAddNode02');
-
-// templateを使って、テキストを変更する。
-btnAddNode02.addEventListener('click', function() {
-  console.log('ボタンが押されました！');
-
-  const template02 = document.getElementById('template02');
-  const content02 = template02.content;
-
-  const clone02 = document.importNode(content02, true);
-
-  let userName = 'Yamada';
-
-  clone02.getElementById('name').innerText = userName;
-
-  document.getElementById('addNode02').appendChild(clone02);
-
-  console.log(clone02);
+  // 円グラフを描画
+  context.beginPath();
+  context.arc(150, 150, 100, (360 * (pctGoukei - pct)) * Math.PI /180, (360 * pctGoukei) * Math.PI /180, false);
+  context.strokeStyle = randomColor;
+  context.lineWidth = 40;
+  context.stroke();
+  };
 });
