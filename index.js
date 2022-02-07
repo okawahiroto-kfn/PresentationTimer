@@ -152,7 +152,7 @@ function clickDelete(ele) {
 setButton.addEventListener('click', function() {
   console.log('setボタンが押されました');
 
-  if (sumSec == 0) {
+  if (sumSec == 0 && sumMin == 0) {
     alert('時間を入力してください(1秒以上)');
     return;
   };
