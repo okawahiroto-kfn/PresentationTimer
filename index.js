@@ -1,7 +1,10 @@
 let btnInput = document.getElementById('btnInput');
+
 let table = document.getElementById('table');
 let totalMin = document.getElementById('totalMin');
 let totalSec = document.getElementById('totalSec');
+let totalHour = document.getElementById('totalHour');
+
 let btnDelete = document.getElementById('btnDelete');
 let itemText = document.getElementById('itemText');
 let inputForm = document.getElementById('inputForm');
@@ -46,20 +49,24 @@ btnInput.addEventListener('click', function() {
   let newCell02 = newRow.insertCell();
   let newCell03 = newRow.insertCell();
   let newCell04 = newRow.insertCell();
+  let newCell05 = newRow.insertCell();
 
   // 項目名を表示
   newCell01.innerText = itemText.value;
 
-  // 分を表示
-  newCell02.innerText = timerMinute.value;
+  // 時間を表示
   newCell02.style.textAlign = 'right';
 
-  // 秒を表示
-  newCell03.innerText = timerSecond.value;
+  // 分を表示
+  newCell03.innerText = timerMinute.value;
   newCell03.style.textAlign = 'right';
 
+  // 秒を表示
+  newCell04.innerText = timerSecond.value;
+  newCell04.style.textAlign = 'right';
+
   // 削除ボタンを追加
-  newCell04.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)" class="delete">削除</button>';
+  newCell05.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)" class="delete">削除</button>';
 
   // ループして合計を出す前に0にする。
   sumSec = 0;
@@ -76,16 +83,18 @@ btnInput.addEventListener('click', function() {
   // row.cells[0].innerText = i + '.';
 
   // 合計計算
-  sumMin = sumMin + Number(table.rows[i].cells[1].innerText);
-  sumSec = sumSec + Number(table.rows[i].cells[2].innerText);
+  sumMin = sumMin + Number(table.rows[i].cells[2].innerText);
+  sumSec = sumSec + Number(table.rows[i].cells[3].innerText);
   };
 
   minToSec = sumMin * 60;
   allSecTotal = (minToSec + sumSec);
 
-  let min = Math.floor(allSecTotal / 60);
+  let hour = Math.floor(allSecTotal / 3600);
+  let min = Math.floor(allSecTotal / 60) % 60;
   let sec = allSecTotal % 60;
 
+  totalHour.innerText = hour;
   totalMin.innerText = min;
   totalSec.innerText = sec;
 
@@ -93,7 +102,7 @@ btnInput.addEventListener('click', function() {
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
   // 各行の時間の割合を計算
-  let pct = table.rows[i].cells[2].innerText / sumSec * 100;
+  let pct = table.rows[i].cells[3].innerText / sumSec * 100;
   console.log(pct + '%');
 
   // 各行の時間の割合を角度に変換
@@ -131,20 +140,21 @@ function clickDelete(ele) {
   // row.cells[0].innerText = i + '.';
 
   // 削除ボタンにidを付与
-  let dButton = table.rows[i].cells[3].children[0];
+  let dButton = table.rows[i].cells[4].children[0];
   dButton.setAttribute('id', i);
 
   // 合計計算
-  sumMin = sumMin + Number(table.rows[i].cells[1].innerText);
-  sumSec = sumSec + Number(table.rows[i].cells[2].innerText);
+  sumMin = sumMin + Number(table.rows[i].cells[2].innerText);
+  sumSec = sumSec + Number(table.rows[i].cells[3].innerText);
   };
 
   minToSec = sumMin * 60;
   allSecTotal = (minToSec + sumSec);
-
-  let min = Math.floor(allSecTotal / 60);
+  let hour = Math.floor(allSecTotal / 3600);
+  let min = Math.floor(allSecTotal / 60) % 60;
   let sec = allSecTotal % 60;
 
+  totalHour.innerText = hour;
   totalMin.innerText = min;
   totalSec.innerText = sec;
 };
@@ -165,7 +175,7 @@ setButton.addEventListener('click', function() {
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
   // 各行の時間の割合を計算
-  let pct = table.rows[i].cells[2].innerText / sumSec;
+  let pct = table.rows[i].cells[3].innerText / sumSec;
 
   // パーセントの合計を計算
   pctGoukei = pctGoukei + pct;
