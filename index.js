@@ -4,6 +4,7 @@ let totalMin = document.getElementById('totalMin');
 let totalSec = document.getElementById('totalSec');
 let btnDelete = document.getElementById('btnDelete');
 let itemText = document.getElementById('itemText');
+let inputForm = document.getElementById('inputForm');
 
 let timerMinute = document.getElementById('timerMinute');
 let timerSecond = document.getElementById('timerSecond');
@@ -184,4 +185,10 @@ setButton.addEventListener('click', function() {
   context.lineWidth = 40;
   context.stroke();
   };
+  console.log(inputForm);
+  // inputForm.style.display = 'none';
+  itemText.disabled = true;
+  timerMinute.disabled = true;
+  timerSecond.disabled = true;
+  btnInput.disabled = true;
 });
