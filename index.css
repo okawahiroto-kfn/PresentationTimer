@@ -5,7 +5,7 @@ body {
   background-color: silver;
 }
 
-#title {
+.appTitle {
   display: block;
   text-align: center;
 }
