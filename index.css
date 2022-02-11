@@ -10,33 +10,34 @@ body {
   text-align: center;
 }
 
-#canvas-wrapper {
+.p-canvasWrapper {
   width: 300px;
   height: 300px;
   position: relative;
   margin: 0 auto;
 }
 
-#canvas {
+.p-graph {
   position: absolute;
   top: 0;
   left: 0;
   transform: rotate(-90deg);
 }
 
-#canvas-text {
+.p-graphText {
   top: 0;
   left: 0;
   position: absolute;
 }
 
-#inputForm {
+.p-inputForm {
   margin: 0 auto;
   text-align: center;
 }
 
 /* inputの横幅を指定する */
-input[type="text"] {
+
+.p-itemText {
   width: 8em;
 }
 
@@ -44,7 +45,7 @@ input[type="text"] {
   vertical-align: bottom;
 }
 
-#btnGroup {
+.p-btnGroup {
   width: 370px;
   margin: 0 auto;
   text-align: center;
@@ -54,7 +55,7 @@ input[type="text"] {
   justify-content: space-between;
 }
 
-.table {
+.p-table {
   margin:auto;
   background-color: silver;
 }

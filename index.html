@@ -15,13 +15,13 @@
 <body>
   <span class="appTitle">Presentation Timer</span>
 
-  <div id="canvas-wrapper">
-    <canvas id="canvas" width="300" height="300"></canvas>
-    <canvas id="canvas-text" width="300" height="300"></canvas>
+  <div id="canvasWrapper" class="p-canvasWrapper">
+    <canvas id="graph" class="p-graph" width="300" height="300"></canvas>
+    <canvas id="gtaphText" class="p-graphText" width="300" height="300"></canvas>
   </div>
 
-  <div id="inputForm">
-    <input type="text" name="" id="itemText" placeholder="item" class="input">
+  <div id="inputForm" class="p-inputForm">
+    <input type="text" name="" id="itemText" placeholder="item" class="input p-itemText">
 
     <select id="timerMinute" class="select">
       <option value="0" selected>0</option>
@@ -158,14 +158,14 @@
 
   <br>
 
-  <div id="btnGroup">
+  <div id="btnGroup" class="p-btnGroup">
     <input type="button" id="setButton" value="SET" class="button is-link">
     <input type="button" id="startButton" value="START" class="button is-primary">
     <input type="button" id="pauseButton" value="PAUSE" class="button is-warning">
     <input type="button" id="resetButton" value="RESET" class="button is-danger">
   </div>
 
-  <table class="table" id="table">
+  <table class="table p-table" id="table">
       <tr>
         <th>item</th>
         <th>hour</th>
