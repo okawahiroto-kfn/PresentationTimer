@@ -21,15 +21,15 @@ let minToSec = 0;
 let allSecTotal = 0;
 
 // canvas表示用(円グラフ)
-let canvas = document.querySelector('#canvas');
-let context = canvas.getContext('2d');
+let canvas = document.getElementById('graph');
+let graph = canvas.getContext('2d');
 
 // タイマー初期表示
-context.beginPath();
-context.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
-context.strokeStyle = 'gray';
-context.lineWidth = 40;
-context.stroke();
+graph.beginPath();
+graph.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
+graph.strokeStyle = 'gray';
+graph.lineWidth = 40;
+graph.stroke();
 
 // window.onload = function() {
 // };
@@ -77,7 +77,7 @@ btnInput.addEventListener('click', function() {
 
   // trにidを付与
   let row = table.rows[i];
-  row.setAttribute('id', i);
+  row.setAttribute('id', 'tr' + i);
 
   // 項目欄のナンバリング
   // row.cells[0].innerText = i + '.';
@@ -174,31 +174,39 @@ setButton.addEventListener('click', function() {
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
+  // 各行の項目名を取得
+  let rowText = table.rows[i].cells[0].innerText;
+
+  // 各行の秒数を計算
+  let minToSec = Number(table.rows[i].cells[2].innerText) * 60;
+  let sec = Number(table.rows[i].cells[3].innerText);
+  let rowSec = minToSec + sec;
+
+  console.log(rowText + ':' + rowSec);
+
   // 各行の時間の割合を計算
-  let pct = table.rows[i].cells[3].innerText / sumSec;
+  let pct = rowSec / allSecTotal;
 
   // パーセントの合計を計算
   pctGoukei = pctGoukei + pct;
 
   // 円の描画開始・終了の角度
-  console.log(i + '---');
   console.log('開始：pctGoukei - pct:' + 360 * (pctGoukei - pct) + '°');
-  console.log('終了：pctGoukei      :' + 360 * pctGoukei + '°');
 
   // 色をランダムに設定
   let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
 
   // 円グラフを描画
-  context.beginPath();
-  context.arc(150, 150, 100, (360 * (pctGoukei - pct)) * Math.PI /180, (360 * pctGoukei) * Math.PI /180, false);
-  context.strokeStyle = randomColor;
-  context.lineWidth = 40;
-  context.stroke();
+  graph.beginPath();
+  graph.arc(150, 150, 100, (360 * (pctGoukei - pct)) * Math.PI /180, (360 * pctGoukei) * Math.PI /180, false);
+  graph.strokeStyle = randomColor;
+  graph.lineWidth = 40;
+  graph.stroke();
   };
-  console.log(inputForm);
+
   // inputForm.style.display = 'none';
-  itemText.disabled = true;
-  timerMinute.disabled = true;
-  timerSecond.disabled = true;
-  btnInput.disabled = true;
+  // itemText.disabled = true;
+  // timerMinute.disabled = true;
+  // timerSecond.disabled = true;
+  // btnInput.disabled = true;
 });
