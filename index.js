@@ -136,7 +136,7 @@ function clickDelete(ele) {
 };
 
 // setボタンが押された時の処理
-setButton.addEventListener('click', function() {
+function setTimer() {
   console.log('setボタンが押されました');
 
   // 1秒も入力されていなかったら、アラートを出す。
@@ -186,7 +186,7 @@ setButton.addEventListener('click', function() {
   // timerMinute.disabled = true;
   // timerSecond.disabled = true;
   // btnInput.disabled = true;
-});
+};
 
   // 時間の合計を計算
 function totalTimeCalc() {
@@ -273,3 +273,9 @@ function pause() {
       break;
   };
 };
+
+resetButton.addEventListener('click', function() {
+  console.log('resetボタンが押されました');
+  clearInterval(countdownTimer);
+  setTimer();
+});
