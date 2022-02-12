@@ -22,10 +22,15 @@ let minToSec = 0;
 let allSecTotal = 0;
 
 let countdownSeconds = 0;
+let countupSeconds = 0;
 
 // canvas表示用(円グラフ)
 let canvas = document.getElementById('graph');
 let graph = canvas.getContext('2d');
+
+let nowKakudo = 0;
+let kakudobunbo = 0;
+
 
 // タイマー初期表示
 graph.beginPath();
@@ -204,21 +209,44 @@ function totalTimeCalc() {
 startButton.addEventListener('click', function() {
   console.log('startボタンが押されました');
   let startTime = new Date();
-  console.log('Start' + startTime);
-
+  console.log('Start:' + startTime);
+  countdownSeconds = 0;
+  kakudobunbo = allSecTotal;
   countdownTimer = setInterval(countdownGraph, 1000);
 });
 
 // countdownTimerが実行される間に呼び出される関数(グラフの描画に使用)
 function countdownGraph() {
+  let countdownTime = new Date();
+  console.log('CountdownStart:' + countdownTime);
+
+  // 秒数の合計から、1秒ずつカウントダウンする。
   console.log(allSecTotal);
   allSecTotal = allSecTotal - 1;
+
+  countdownSeconds = countdownSeconds + 1;
+  nowKakudo = countdownSeconds / kakudobunbo;
+
+
+  // 円グラフの経過時間をグレーで表示
+  graph.beginPath();
+  graph.arc(150, 150, 100, 0 * Math.PI / 180, (360 * nowKakudo) * Math.PI /180, false);
+  graph.strokeStyle = 'gray';
+  graph.lineWidth = 40;
+  graph.stroke();
 
   if (allSecTotal == 0) {
     clearInterval(countdownTimer);
     console.log('END!');
     let endTime = new Date();
-    console.log(endTime);
+    console.log('END:' + endTime);
+
+    // タイマー終了表示
+    graph.beginPath();
+    graph.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
+    graph.strokeStyle = 'red';
+    graph.lineWidth = 40;
+    graph.stroke();
   };
 
 };
