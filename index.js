@@ -14,6 +14,10 @@ let timerSecond = document.getElementById('timerSecond');
 
 let setButton = document.getElementById('setButton');
 const startButton = document.getElementById('startButton');
+const pauseButton = document.getElementById('pauseButton');
+const resetButton = document.getElementById('resetButton');
+let modeButton = 'pause';
+
 
 let sumMin = 0;
 let sumSec = 0;
@@ -250,5 +254,22 @@ function countdownGraph() {
     graph.lineWidth = 40;
     graph.stroke();
   };
+};
 
+// PAUSEボタン(RESUMEボタン)を押した時の処理
+function pause() {
+  switch (modeButton) {
+    case 'pause':
+      console.log('pauseボタンが押されました');
+      clearInterval(countdownTimer);
+      pauseButton.value = 'RESUME';
+      modeButton = 'resume';
+      break;
+    case 'resume':
+      console.log('resumeボタンが押されました');
+      countdownTimer = setInterval(countdownGraph, 1000);
+      pauseButton.value = 'PAUSE';
+      modeButton = 'pause';
+      break;
+  };
 };
