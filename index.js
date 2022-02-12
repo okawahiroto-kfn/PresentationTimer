@@ -13,12 +13,15 @@ let timerMinute = document.getElementById('timerMinute');
 let timerSecond = document.getElementById('timerSecond');
 
 let setButton = document.getElementById('setButton');
+const startButton = document.getElementById('startButton');
 
 let sumMin = 0;
 let sumSec = 0;
 let secToMin = 0;
 let minToSec = 0;
 let allSecTotal = 0;
+
+let countdownTimer = 0;
 
 // canvas表示用(円グラフ)
 let canvas = document.getElementById('graph');
@@ -196,3 +199,13 @@ function totalTimeCalc() {
   totalMin.innerText = min;
   totalSec.innerText = sec;
 };
+
+// STARTボタンを押した時の処理
+startButton.addEventListener('click', function() {
+  console.log('startボタンが押されました');
+  let startTime = new Date();
+  console.log('Start' + startTime);
+
+  // countdownTimer = setInterval(countdownGraph, 1000);
+});
+
