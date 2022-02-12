@@ -21,7 +21,7 @@ let secToMin = 0;
 let minToSec = 0;
 let allSecTotal = 0;
 
-let countdownTimer = 0;
+let countdownSeconds = 0;
 
 // canvas表示用(円グラフ)
 let canvas = document.getElementById('graph');
@@ -206,6 +206,19 @@ startButton.addEventListener('click', function() {
   let startTime = new Date();
   console.log('Start' + startTime);
 
-  // countdownTimer = setInterval(countdownGraph, 1000);
+  countdownTimer = setInterval(countdownGraph, 1000);
 });
 
+// countdownTimerが実行される間に呼び出される関数(グラフの描画に使用)
+function countdownGraph() {
+  console.log(allSecTotal);
+  allSecTotal = allSecTotal - 1;
+
+  if (allSecTotal == 0) {
+    clearInterval(countdownTimer);
+    console.log('END!');
+    let endTime = new Date();
+    console.log(endTime);
+  };
+
+};
