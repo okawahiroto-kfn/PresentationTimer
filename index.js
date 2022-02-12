@@ -28,9 +28,7 @@ let countupSeconds = 0;
 let canvas = document.getElementById('graph');
 let graph = canvas.getContext('2d');
 
-let nowKakudo = 0;
-let kakudobunbo = 0;
-
+let progressPercent = 0;
 
 // タイマー初期表示
 graph.beginPath();
@@ -210,32 +208,36 @@ startButton.addEventListener('click', function() {
   console.log('startボタンが押されました');
   let startTime = new Date();
   console.log('Start:' + startTime);
-  countdownSeconds = 0;
-  kakudobunbo = allSecTotal;
+
+  // カウントダウン・カウントアップの変数宣言
+  countdownSeconds = allSecTotal;
+  countupSeconds = 0;
+
+  // setIntervalで1秒ごとにcountdownGraphを実行
   countdownTimer = setInterval(countdownGraph, 1000);
 });
 
-// countdownTimerが実行される間に呼び出される関数(グラフの描画に使用)
+// 1秒ごとにグラフを描画
 function countdownGraph() {
   let countdownTime = new Date();
   console.log('CountdownStart:' + countdownTime);
 
-  // 秒数の合計から、1秒ずつカウントダウンする。
-  console.log(allSecTotal);
-  allSecTotal = allSecTotal - 1;
+  // カウントダウン・カウントアップを実行
+  console.log(countdownSeconds);
+  countdownSeconds = countdownSeconds - 1;
+  countupSeconds = countupSeconds + 1;
 
-  countdownSeconds = countdownSeconds + 1;
-  nowKakudo = countdownSeconds / kakudobunbo;
-
+  // 全体の時間の何%経過したか計算
+  progressPercent = countupSeconds / allSecTotal;
 
   // 円グラフの経過時間をグレーで表示
   graph.beginPath();
-  graph.arc(150, 150, 100, 0 * Math.PI / 180, (360 * nowKakudo) * Math.PI /180, false);
+  graph.arc(150, 150, 100, 0 * Math.PI / 180, (360 * progressPercent) * Math.PI /180, false);
   graph.strokeStyle = 'gray';
   graph.lineWidth = 40;
   graph.stroke();
 
-  if (allSecTotal == 0) {
+  if (countdownSeconds <= 0) {
     clearInterval(countdownTimer);
     console.log('END!');
     let endTime = new Date();
