@@ -72,31 +72,8 @@ btnInput.addEventListener('click', function() {
   sumSec = 0;
   sumMin = 0;
 
-  // tableの行数分ループ
-  for (let i = 1; i < (table.rows.length - 1); i++) {
-
-  // trにidを付与
-  let row = table.rows[i];
-  row.setAttribute('id', 'tr' + i);
-
-  // 項目欄のナンバリング
-  // row.cells[0].innerText = i + '.';
-
-  // 合計計算
-  sumMin = sumMin + Number(table.rows[i].cells[2].innerText);
-  sumSec = sumSec + Number(table.rows[i].cells[3].innerText);
-  };
-
-  minToSec = sumMin * 60;
-  allSecTotal = (minToSec + sumSec);
-
-  let hour = Math.floor(allSecTotal / 3600);
-  let min = Math.floor(allSecTotal / 60) % 60;
-  let sec = allSecTotal % 60;
-
-  totalHour.innerText = hour;
-  totalMin.innerText = min;
-  totalSec.innerText = sec;
+  // 時間の合計を計算
+  totalTimeCalc();
 
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
@@ -142,28 +119,18 @@ function clickDelete(ele) {
   // 削除ボタンにidを付与
   let dButton = table.rows[i].cells[4].children[0];
   dButton.setAttribute('id', i);
-
-  // 合計計算
-  sumMin = sumMin + Number(table.rows[i].cells[2].innerText);
-  sumSec = sumSec + Number(table.rows[i].cells[3].innerText);
   };
 
-  minToSec = sumMin * 60;
-  allSecTotal = (minToSec + sumSec);
-  let hour = Math.floor(allSecTotal / 3600);
-  let min = Math.floor(allSecTotal / 60) % 60;
-  let sec = allSecTotal % 60;
-
-  totalHour.innerText = hour;
-  totalMin.innerText = min;
-  totalSec.innerText = sec;
+  // 時間の合計を計算
+  totalTimeCalc();
 };
 
 // setボタンが押された時の処理
 setButton.addEventListener('click', function() {
   console.log('setボタンが押されました');
 
-  if (sumSec == 0 && sumMin == 0) {
+  // 1秒も入力されていなかったら、アラートを出す。
+  if (allSecTotal == 0) {
     alert('時間を入力してください(1秒以上)');
     return;
   };
@@ -210,3 +177,22 @@ setButton.addEventListener('click', function() {
   // timerSecond.disabled = true;
   // btnInput.disabled = true;
 });
+
+  // 時間の合計を計算
+function totalTimeCalc() {
+  console.log('totalTimeCalcが実行されました');
+  sumMin = 0;
+  sumSec = 0;
+  for (let i = 1; i < (table.rows.length - 1); i++) {
+    sumMin = sumMin + Number(table.rows[i].cells[2].innerText);
+    sumSec = sumSec + Number(table.rows[i].cells[3].innerText);
+  };
+  minToSec = sumMin * 60;
+  allSecTotal = (minToSec + sumSec);
+  let hour = Math.floor(allSecTotal / 3600);
+  let min = Math.floor(allSecTotal / 60) % 60;
+  let sec = allSecTotal % 60;
+  totalHour.innerText = hour;
+  totalMin.innerText = min;
+  totalSec.innerText = sec;
+};
