@@ -29,6 +29,7 @@ let allSecTotal = 0;
 let countdownSeconds = 0;
 let countupSeconds = 0;
 let rowCount = 0;
+let rowSec = 0;
 
 // canvas表示用(円グラフ)
 let canvas = document.getElementById('graph');
@@ -227,29 +228,26 @@ startButton.addEventListener('click', function() {
 function countdownGraph() {
   let countdownTime = new Date();
   console.log('CountdownStart:' + countdownTime);
-  console.log(rowCount);
 
   // カウントダウン・カウントアップを実行
-  console.log(countdownSeconds);
   countdownSeconds = countdownSeconds - 1;
   countupSeconds = countupSeconds + 1;
-  // itemTextTimer = itemTextTimer + 1;
-  // let rowSec = Number(table.rows[rowCount].cells[3].innerText);
-  // if (countupSeconds <= rowSec) {
-  //   console.log(table.rows[rowCount].cells[0].innerText);
-  // } else {
-  //   rowSec = rowSec + Number(table.rows[rowCount + 1].cells[3].innerText);
-  //   rowCount = rowCount + 1;
-  // };
 
-
+  // 各行の項目と秒を取得、表示
   for (let i = 1; i < (table.rows.length - 1); i++) {
     let rowText = table.rows[i].cells[0].innerText;
     rowSec = Number(table.rows[i].cells[3].innerText);
     console.log(rowText + ':' +  rowSec);
   };
 
-  // 全体の時間の何%経過したか計算
+  // カウントアップと1行目の秒を比較
+  if (countupSeconds <= rowSec) {
+    console.log('countupSeconds <= rowSec');
+  } else {
+    console.log('countupSeconds > rowSec');
+  };
+
+  // // 全体の時間の何%経過したか計算
   progressPercent = countupSeconds / allSecTotal;
 
   // 円グラフの経過時間をグレーで表示
