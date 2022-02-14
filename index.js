@@ -23,10 +23,12 @@ let sumMin = 0;
 let sumSec = 0;
 let secToMin = 0;
 let minToSec = 0;
+let rowSecTotal = 0;
 let allSecTotal = 0;
 
 let countdownSeconds = 0;
 let countupSeconds = 0;
+let rowCount = 0;
 
 // canvas表示用(円グラフ)
 let canvas = document.getElementById('graph');
@@ -95,7 +97,6 @@ btnInput.addEventListener('click', function() {
   // 各行の時間の割合を角度に変換
   let kakudo = Math.round(360 * pct / 100);
   console.log(kakudo + '°');
-
   };
 });
 
@@ -155,20 +156,20 @@ function setTimer() {
   let rowText = table.rows[i].cells[0].innerText;
 
   // 各行の秒数を計算
-  let minToSec = Number(table.rows[i].cells[2].innerText) * 60;
+  minToSec = Number(table.rows[i].cells[2].innerText) * 60;
   let sec = Number(table.rows[i].cells[3].innerText);
-  let rowSec = minToSec + sec;
+  rowSecTotal = minToSec + sec;
 
-  console.log(rowText + ':' + rowSec);
+  console.log(rowText + ':' + rowSecTotal);
 
   // 各行の時間の割合を計算
-  let pct = rowSec / allSecTotal;
+  let pct = rowSecTotal / allSecTotal;
 
   // パーセントの合計を計算
   pctGoukei = pctGoukei + pct;
 
   // 円の描画開始・終了の角度
-  console.log('開始：pctGoukei - pct:' + 360 * (pctGoukei - pct) + '°');
+  // console.log('開始：pctGoukei - pct:' + 360 * (pctGoukei - pct) + '°');
 
   // 色をランダムに設定
   let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
@@ -216,6 +217,7 @@ startButton.addEventListener('click', function() {
   // カウントダウン・カウントアップの変数宣言
   countdownSeconds = allSecTotal;
   countupSeconds = 0;
+  rowCount = 1;
 
   // setIntervalで1秒ごとにcountdownGraphを実行
   countdownTimer = setInterval(countdownGraph, 1000);
@@ -225,11 +227,27 @@ startButton.addEventListener('click', function() {
 function countdownGraph() {
   let countdownTime = new Date();
   console.log('CountdownStart:' + countdownTime);
+  console.log(rowCount);
 
   // カウントダウン・カウントアップを実行
   console.log(countdownSeconds);
   countdownSeconds = countdownSeconds - 1;
   countupSeconds = countupSeconds + 1;
+  // itemTextTimer = itemTextTimer + 1;
+  // let rowSec = Number(table.rows[rowCount].cells[3].innerText);
+  // if (countupSeconds <= rowSec) {
+  //   console.log(table.rows[rowCount].cells[0].innerText);
+  // } else {
+  //   rowSec = rowSec + Number(table.rows[rowCount + 1].cells[3].innerText);
+  //   rowCount = rowCount + 1;
+  // };
+
+
+  for (let i = 1; i < (table.rows.length - 1); i++) {
+    let rowText = table.rows[i].cells[0].innerText;
+    rowSec = Number(table.rows[i].cells[3].innerText);
+    console.log(rowText + ':' +  rowSec);
+  };
 
   // 全体の時間の何%経過したか計算
   progressPercent = countupSeconds / allSecTotal;
