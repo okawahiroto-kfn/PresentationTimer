@@ -38,6 +38,9 @@ let rowSecSum = 0;
 const canvas = document.getElementById('graph');
 const graph = canvas.getContext('2d');
 
+const graphText = document.getElementById('graphText');
+const graphTime = document.getElementById('graphTime');
+
 let progressPercent = 0;
 
 // タイマー初期表示
@@ -186,6 +189,17 @@ function setTimer() {
   graph.stroke();
   };
 
+  // タイマー初期値を設定
+  rowCount = 1;
+  rowSecSum = 0;
+
+  // 1行目の項目名、秒数を取得
+  rowItem = table.rows[rowCount].cells[0].innerText;
+  rowSec = Number(table.rows[rowCount].cells[3].innerText);
+  rowSecSum = rowSecSum + rowSec;
+  graphText.innerText = rowItem;
+  graphTime.innerText = allSecTotal;
+
   // inputForm.style.display = 'none';
   // itemText.disabled = true;
   // timerMinute.disabled = true;
@@ -222,14 +236,6 @@ startButton.addEventListener('click', function() {
   countdownSeconds = allSecTotal;
   countupSeconds = 0;
 
-  // タイマー初期値を設定
-  rowCount = 1;
-  rowSecSum = 0;
-
-  // 1行目の項目名、秒数を取得
-  rowItem = table.rows[rowCount].cells[0].innerText;
-  rowSec = Number(table.rows[rowCount].cells[3].innerText);
-  rowSecSum = rowSecSum + rowSec;
 
   // setIntervalで1秒ごとにcountdownGraphを実行
   countdownTimer = setInterval(countdownGraph, 1000);
@@ -237,6 +243,9 @@ startButton.addEventListener('click', function() {
 
 // 1秒ごとにグラフを描画
 function countdownGraph() {
+  rowItem = table.rows[rowCount].cells[0].innerText;
+  rowSec = Number(table.rows[rowCount].cells[3].innerText);
+
 
   // 項目名と項目秒を取得・表示
   console.log('----------------------');
@@ -256,6 +265,9 @@ function countdownGraph() {
   countdownSeconds = countdownSeconds - 1;
   countupSeconds = countupSeconds + 1;
 
+  graphText.innerText = rowItem;
+  graphTime.innerText = allSecTotal - countupSeconds;
+
   // // 全体の時間の何%経過したか計算
   progressPercent = countupSeconds / allSecTotal;
 
@@ -271,6 +283,9 @@ function countdownGraph() {
     console.log('END!');
     let endTime = new Date();
     console.log('END:' + endTime);
+
+    graphText.innerText = 'END!';
+    // graphTime.innerText = allSecTotal - countupSeconds;
 
     // タイマー終了表示
     graph.beginPath();
