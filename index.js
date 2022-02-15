@@ -1,22 +1,22 @@
-let btnInput = document.getElementById('btnInput');
+const btnInput = document.getElementById('btnInput');
 
-let table = document.getElementById('table');
-let totalMin = document.getElementById('totalMin');
-let totalSec = document.getElementById('totalSec');
-let totalHour = document.getElementById('totalHour');
+const table = document.getElementById('table');
+const totalMin = document.getElementById('totalMin');
+const totalSec = document.getElementById('totalSec');
+const totalHour = document.getElementById('totalHour');
 
-let btnDelete = document.getElementById('btnDelete');
-let itemText = document.getElementById('itemText');
-let inputForm = document.getElementById('inputForm');
+const btnDelete = document.getElementById('btnDelete');
+const itemText = document.getElementById('itemText');
+const inputForm = document.getElementById('inputForm');
 
-let timerMinute = document.getElementById('timerMinute');
-let timerSecond = document.getElementById('timerSecond');
+const timerMinute = document.getElementById('timerMinute');
+const timerSecond = document.getElementById('timerSecond');
 
-let setButton = document.getElementById('setButton');
+const setButton = document.getElementById('setButton');
 const startButton = document.getElementById('startButton');
 const pauseButton = document.getElementById('pauseButton');
 const resetButton = document.getElementById('resetButton');
-let modeButton = 'pause';
+const modeButton = 'pause';
 
 
 let sumMin = 0;
@@ -28,12 +28,15 @@ let allSecTotal = 0;
 
 let countdownSeconds = 0;
 let countupSeconds = 0;
+
+let rowItem = '';
 let rowCount = 0;
 let rowSec = 0;
+let rowSecSum = 0;
 
 // canvas表示用(円グラフ)
-let canvas = document.getElementById('graph');
-let graph = canvas.getContext('2d');
+const canvas = document.getElementById('graph');
+const graph = canvas.getContext('2d');
 
 let progressPercent = 0;
 
@@ -218,7 +221,15 @@ startButton.addEventListener('click', function() {
   // カウントダウン・カウントアップの変数宣言
   countdownSeconds = allSecTotal;
   countupSeconds = 0;
+
+  // タイマー初期値を設定
   rowCount = 1;
+  rowSecSum = 0;
+
+  // 1行目の項目名、秒数を取得
+  rowItem = table.rows[rowCount].cells[0].innerText;
+  rowSec = Number(table.rows[rowCount].cells[3].innerText);
+  rowSecSum = rowSecSum + rowSec;
 
   // setIntervalで1秒ごとにcountdownGraphを実行
   countdownTimer = setInterval(countdownGraph, 1000);
@@ -226,26 +237,24 @@ startButton.addEventListener('click', function() {
 
 // 1秒ごとにグラフを描画
 function countdownGraph() {
-  let countdownTime = new Date();
-  console.log('CountdownStart:' + countdownTime);
+
+  // 項目名と項目秒を取得・表示
+  console.log('----------------------');
+  console.log('countdownSeconds:' + countdownSeconds);
+  console.log('行数:' + rowCount);
+  console.log('項目名:' + rowItem);
+  console.log('項目秒:' + rowSec);
+  console.log('秒項目秒合計:' + rowSecSum);
+
+  // カウントアップした秒が項目秒の合計と等しくなったら次の行に移る。
+  if (countupSeconds + 1 >= rowSecSum) {
+    rowCount = rowCount + 1;
+    rowSecSum = rowSecSum + rowSec;
+  };
 
   // カウントダウン・カウントアップを実行
   countdownSeconds = countdownSeconds - 1;
   countupSeconds = countupSeconds + 1;
-
-  // 各行の項目と秒を取得、表示
-  for (let i = 1; i < (table.rows.length - 1); i++) {
-    let rowText = table.rows[i].cells[0].innerText;
-    rowSec = Number(table.rows[i].cells[3].innerText);
-    console.log(rowText + ':' +  rowSec);
-  };
-
-  // カウントアップと1行目の秒を比較
-  if (countupSeconds <= rowSec) {
-    console.log('countupSeconds <= rowSec');
-  } else {
-    console.log('countupSeconds > rowSec');
-  };
 
   // // 全体の時間の何%経過したか計算
   progressPercent = countupSeconds / allSecTotal;
