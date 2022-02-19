@@ -353,10 +353,12 @@ function totalTimeCalc() {
   min = ('0' + min).slice(-2);
   sec = ('0' + sec).slice(-2);
 
-  totalHour.innerText = hour;
-  totalMin.innerText = min;
-  totalSec.innerText = sec;
+  // 20220219合計時間を秒の欄に表示(時間と分の欄は後から削除する)
+  // totalHour.innerText = hour;
+  // totalMin.innerText = min;
+  // totalSec.innerText = sec;
   totalTime = hour + ':' + min + ':' + sec;
+  totalSec.innerText = timeConvert(allSecTotal);
 };
 
 // 秒を時間：分:秒に変換
