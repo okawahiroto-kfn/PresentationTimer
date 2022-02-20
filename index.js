@@ -16,7 +16,7 @@ const setButton = document.getElementById('setButton');
 const startButton = document.getElementById('startButton');
 const pauseButton = document.getElementById('pauseButton');
 const resetButton = document.getElementById('resetButton');
-const modeButton = 'pause';
+let modeButton = 'pause';
 
 let hour = 0;
 let min = 0;
@@ -329,6 +329,7 @@ function countdownGraph() {
 
     graphText.innerText = 'END!';
     // graphTime.innerText = allTimeSec - countupSeconds;
+    timeOver();
 
     // タイマー終了表示
     graph.beginPath();
@@ -410,3 +411,7 @@ function timeConvert(time) {
   };
 };
 
+function timeOver() {
+  console.log('timeOverが実行されました');
+
+}
