@@ -26,6 +26,8 @@ let sumMin = 0;
 let sumSec = 0;
 let secToMin = 0;
 let minToSec = 0;
+
+// 行の時間を秒にしたものrowTimeSec
 let rowSecTotal = 0;
 let allSecTotal = 0;
 
