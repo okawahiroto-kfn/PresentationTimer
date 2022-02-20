@@ -208,7 +208,7 @@ function setTimer() {
   totalTimeCalc();
 
   rowItem = table.rows[rowCount].cells[0].innerText;
-  rowMin + Number(table.rows[rowCount].cells[2].innerText);
+  rowMin = Number(table.rows[rowCount].cells[2].innerText);
   rowSec = Number(table.rows[rowCount].cells[3].innerText);
   minToSec = rowMin * 60;
 
@@ -265,10 +265,11 @@ function countdownGraph() {
   // 項目名と項目秒を取得・表示
   console.log('----------------------');
   console.log('countdownSeconds:' + countdownSeconds);
-  console.log('行数:' + rowCount);
-  console.log('項目名:' + rowItem);
-  console.log('項目秒:' + totalRowSec);
-  console.log('秒項目秒合計:' + rowSecSum);
+  console.log('countupSeconds:' + countupSeconds);
+  console.log('rowCount:' + rowCount);
+  console.log('rowItem:' + rowItem);
+  console.log('rowSecSum:' + rowSecSum);
+  console.log('totalRowSec:' + totalRowSec);
 
   // カウントアップした秒が項目秒の合計と等しくなったら次の行に移る。
   if (countupSeconds + 1 >= rowSecSum) {
