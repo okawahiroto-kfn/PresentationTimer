@@ -28,8 +28,13 @@ let secToMin = 0;
 let minToSec = 0;
 
 // 行の時間を秒にしたものrowTimeSec
-let rowSecTotal = 0;
-let allSecTotal = 0;
+let rowTimeSec = 0;
+
+// 行の時間を秒にしたものを合計したもの
+let rowTimeSecSum = 0;
+
+// 全ての時間を秒にしたものallTimeSec
+let allTimeSec = 0;
 
 let countdownSeconds = 0;
 let countupSeconds = 0;
@@ -40,10 +45,10 @@ let rowMin = 0;
 let rowSec = 0;
 
 // 全ての行の時間を秒に変換し、合計したもの(総合計秒)
-let totalRowSec = 0;
+// let rowTimeSec = 0;
 
 // 各行の時間を秒に変換し、合計したもの(各行の秒)
-let rowSecSum = 0;
+// let rowTimeSecSum = 0;
 
 let totalTime = 0;
 
@@ -161,7 +166,7 @@ function setTimer() {
   console.log('setボタンが押されました');
 
   // 1秒も入力されていなかったら、アラートを出す。
-  if (allSecTotal == 0) {
+  if (allTimeSec == 0) {
     alert('時間を入力してください(1秒以上)');
     return;
   };
@@ -177,13 +182,13 @@ function setTimer() {
 
   // 各行の秒数を計算
   minToSec = Number(table.rows[i].cells[2].innerText) * 60;
-  let sec = Number(table.rows[i].cells[3].innerText);
-  rowSecTotal = minToSec + sec;
+  rowSec = Number(table.rows[i].cells[3].innerText);
+  rowTimeSec = minToSec + rowSec;
 
-  console.log(rowText + ':' + rowSecTotal);
+  console.log(rowText + ':' + rowTimeSec);
 
   // 各行の時間の割合を計算
-  let pct = rowSecTotal / allSecTotal;
+  let pct = rowTimeSec / allTimeSec;
 
   // パーセントの合計を計算
   pctGoukei = pctGoukei + pct;
@@ -203,34 +208,38 @@ function setTimer() {
   };
 
   // タイマー初期値を設定
-  rowCount = 1;
-  rowSecSum = 0;
-  totalRowSec = 0;
-
+  // カウントダウン・カウントアップの変数宣言
   totalTimeCalc();
+
+  countdownSeconds = allTimeSec;
+  countupSeconds = 0;
+
+  rowCount = 1;
+  rowTimeSec = 0;
+  rowTimeSecSum = 0;
 
   rowItem = table.rows[rowCount].cells[0].innerText;
   rowMin = Number(table.rows[rowCount].cells[2].innerText);
   rowSec = Number(table.rows[rowCount].cells[3].innerText);
   minToSec = rowMin * 60;
 
-  totalRowSec = minToSec + rowSec;
+  rowTimeSec = minToSec + rowSec;
 
   graphText.innerText = rowItem;
-  graphTime.innerText = timeConvert(allSecTotal);
+  graphTime.innerText = timeConvert(allTimeSec);
 
-  console.log(timeConvert(allSecTotal));
+  console.log(timeConvert(allTimeSec));
 
-  rowSecSum = rowSecSum + rowSec;
+  rowTimeSecSum = rowTimeSecSum + rowTimeSec;
 
-  console.log(totalRowSec);
-  console.log(rowSecSum);
+  console.log(rowTimeSec);
+  console.log(rowTimeSecSum);
   // 1行目の項目名、秒数を取得
   // rowMin = Number(table.rows[rowCount].cells[2].innerText);
   // rowSec = Number(table.rows[rowCount].cells[3].innerText);
-  // rowSecSum = rowMin * 60 + rowSec;
+  // rowTimeSecSum = rowMin * 60 + rowSec;
   // graphText.innerText = rowItem;
-  // graphTime.innerText = allSecTotal;
+  // graphTime.innerText = allTimeSec;
 
   // inputForm.style.display = 'none';
   // itemText.disabled = true;
@@ -245,49 +254,65 @@ startButton.addEventListener('click', function() {
   let startTime = new Date();
   console.log('Start:' + startTime);
 
-  // カウントダウン・カウントアップの変数宣言
-  countdownSeconds = allSecTotal;
-  countupSeconds = 0;
-
-
   // setIntervalで1秒ごとにcountdownGraphを実行
   countdownTimer = setInterval(countdownGraph, 1000);
 });
 
 // 1秒ごとにグラフを描画
 function countdownGraph() {
+  console.log('----------------------');
+  console.log('タイマー開始');
+  let startTime = new Date();
+  console.log('Start:' + startTime);
+
   rowItem = table.rows[rowCount].cells[0].innerText;
-  // rowMin + Number(table.rows[rowCount].cells[2].innerText);
+  // rowMin = Number(table.rows[rowCount].cells[2].innerText);
   // rowSec = Number(table.rows[rowCount].cells[3].innerText);
   // minToSec = rowMin * 60;
 
-  // rowSecSum = rowSecSum + totalRowSec;
+  // rowTimeSecSum = rowTimeSecSum + rowTimeSec;
 
 
   // 項目名と項目秒を取得・表示
-  console.log('----------------------');
+  console.log('▼前---');
   console.log('countdownSeconds:' + countdownSeconds);
   console.log('countupSeconds:' + countupSeconds);
   console.log('rowCount:' + rowCount);
   console.log('rowItem:' + rowItem);
-  console.log('rowSecSum:' + rowSecSum);
-  console.log('totalRowSec:' + totalRowSec);
+  console.log('rowTimeSec:' + rowTimeSec);
+  console.log('rowTimeSecSum:' + rowTimeSecSum);
 
   // カウントアップした秒が項目秒の合計と等しくなったら次の行に移る。
-  if (countupSeconds + 1 >= rowSecSum) {
+  if (countupSeconds + 1 >= rowTimeSecSum) {
     rowCount = rowCount + 1;
-    rowSecSum = rowSecSum + rowSec;
+
+    rowMin = Number(table.rows[rowCount].cells[2].innerText);
+    rowSec = Number(table.rows[rowCount].cells[3].innerText);
+    minToSec = rowMin * 60;
+    rowTimeSec = minToSec + rowSec;
+
+    rowTimeSecSum = rowTimeSecSum + rowTimeSec;
   };
+
+  console.log('▼後---');
+  console.log('countdownSeconds:' + countdownSeconds);
+  console.log('countupSeconds:' + countupSeconds);
+  console.log('rowCount:' + rowCount);
+  console.log('rowItem:' + rowItem);
+  console.log('rowTimeSec:' + rowTimeSec);
+  console.log('rowTimeSecSum:' + rowTimeSecSum);
+
+
 
   // カウントダウン・カウントアップを実行
   countdownSeconds = countdownSeconds - 1;
   countupSeconds = countupSeconds + 1;
 
   graphText.innerText = rowItem;
-  graphTime.innerText = timeConvert(allSecTotal - countupSeconds);
+  graphTime.innerText = timeConvert(allTimeSec - countupSeconds);
 
   // // 全体の時間の何%経過したか計算
-  progressPercent = countupSeconds / allSecTotal;
+  progressPercent = countupSeconds / allTimeSec;
 
   // 円グラフの経過時間をグレーで表示
   graph.beginPath();
@@ -303,7 +328,7 @@ function countdownGraph() {
     console.log('END:' + endTime);
 
     graphText.innerText = 'END!';
-    // graphTime.innerText = allSecTotal - countupSeconds;
+    // graphTime.innerText = allTimeSec - countupSeconds;
 
     // タイマー終了表示
     graph.beginPath();
@@ -348,20 +373,22 @@ function totalTimeCalc() {
     sumSec = sumSec + Number(table.rows[i].cells[3].innerText);
   };
   minToSec = sumMin * 60;
-  allSecTotal = (minToSec + sumSec);
-  hour = Math.floor(allSecTotal / 3600);
-  min = Math.floor(allSecTotal / 60) % 60;
-  sec = allSecTotal % 60;
+  allTimeSec = (minToSec + sumSec);
+  hour = Math.floor(allTimeSec / 3600);
+  min = Math.floor(allTimeSec / 60) % 60;
+  sec = allTimeSec % 60;
 
   min = ('0' + min).slice(-2);
   sec = ('0' + sec).slice(-2);
 
-  // 20220219合計時間を秒の欄に表示(時間と分の欄は後から削除する)
-  // totalHour.innerText = hour;
-  // totalMin.innerText = min;
-  // totalSec.innerText = sec;
+  // 合計時間を時・分・秒に分けて表示
+  totalHour.innerText = hour;
+  totalMin.innerText = min;
+  totalSec.innerText = sec;
   totalTime = hour + ':' + min + ':' + sec;
-  totalSec.innerText = timeConvert(allSecTotal);
+
+  // 合計時間を表示
+  // totalSec.innerText = timeConvert(allTimeSec);
 };
 
 // 秒を時間：分:秒に変換
