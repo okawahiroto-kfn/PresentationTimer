@@ -29,6 +29,7 @@ body {
   width: 300px;
   height: 300px;
   font-size: xx-large;
+  font-weight: bold;
   text-align: center;
   top: 4em;
 }
@@ -37,9 +38,9 @@ body {
   position: absolute;
   width: 300px;
   height: 300px;
-  font-size: x-large;
+  font-size: xx-large;
   text-align: center;
-  top: 7em
+  top: 5em
 }
 
 /* .p-graphText {
