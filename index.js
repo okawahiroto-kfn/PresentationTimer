@@ -18,6 +18,9 @@ const pauseButton = document.getElementById('pauseButton');
 const resetButton = document.getElementById('resetButton');
 let modeButton = 'pause';
 
+let countdownTimer = '';
+let overTimeTimer = '';
+
 let hour = 0;
 let min = 0;
 let sec = 0;
@@ -38,6 +41,8 @@ let allTimeSec = 0;
 
 let countdownSeconds = 0;
 let countupSeconds = 0;
+
+let countupOverTimeSeconds = 0;
 
 let rowItem = '';
 let rowCount = 0;
@@ -328,8 +333,10 @@ function countdownGraph() {
     console.log('END:' + endTime);
 
     graphText.innerText = 'END!';
+
+    graphTime.style.color = 'red';
+
     // graphTime.innerText = allTimeSec - countupSeconds;
-    timeOver();
 
     // タイマー終了表示
     graph.beginPath();
@@ -337,6 +344,10 @@ function countdownGraph() {
     graph.strokeStyle = 'red';
     graph.lineWidth = 40;
     graph.stroke();
+
+    countupOverTimeSeconds = 0;
+
+    timeOver();
   };
 };
 
@@ -345,22 +356,37 @@ function pause() {
   switch (modeButton) {
     case 'pause':
       console.log('pauseボタンが押されました');
-      clearInterval(countdownTimer);
       pauseButton.value = 'RESUME';
       modeButton = 'resume';
+
+      if (countdownSeconds > 0) {
+        clearInterval(countdownTimer);
+      } else {
+        clearInterval(overTimeTimer);
+      }
       break;
-    case 'resume':
+
+      case 'resume':
       console.log('resumeボタンが押されました');
-      countdownTimer = setInterval(countdownGraph, 1000);
       pauseButton.value = 'PAUSE';
       modeButton = 'pause';
+
+      if (countdownSeconds > 0) {
+        countdownTimer = setInterval(countdownGraph, 1000);
+      } else {
+        overTimeTimer = setInterval(countupOverTime, 1000);
+      };
+
       break;
   };
 };
 
+// RESETボタンを押した時の処理
 resetButton.addEventListener('click', function() {
   console.log('resetボタンが押されました');
   clearInterval(countdownTimer);
+  clearInterval(overTimeTimer);
+  graphTime.style.color = 'black';
   setTimer();
 });
 
@@ -413,5 +439,11 @@ function timeConvert(time) {
 
 function timeOver() {
   console.log('timeOverが実行されました');
+  overTimeTimer = setInterval(countupOverTime, 1000);
+};
 
-}
+function countupOverTime() {
+  countupOverTimeSeconds ++;
+  graphTime.innerText = timeConvert(countupOverTimeSeconds);
+};
+
