@@ -74,7 +74,7 @@ graph.lineWidth = 40;
 graph.stroke();
 
 window.onload = function() {
-  setButton.disabled = true;
+  // setButton.disabled = true;
   startButton.disabled = true;
   pauseButton.disabled = true;
   resetButton.disabled = true;
@@ -133,7 +133,7 @@ btnInput.addEventListener('click', function() {
   console.log(kakudo + '°');
   };
 
-  setButton.disabled = false;
+  // setButton.disabled = false;
 
   setTimer();
 
@@ -173,6 +173,8 @@ function clickDelete(ele) {
 
   // 時間の合計を計算
   totalTimeCalc();
+
+  setTimer();
 };
 
 // setボタンが押された時の処理
@@ -278,9 +280,8 @@ startButton.addEventListener('click', function() {
   inputForm.style.display = 'none';
 
   btnInput.disabled = true;
-  setButton.disabled = true;
+  // setButton.disabled = true;
   startButton.disabled = true;
-
 });
 
 // 1秒ごとにグラフを描画
@@ -415,7 +416,7 @@ resetButton.addEventListener('click', function() {
   };
 
   btnInput.disabled = false;
-  setButton.disabled = false;
+  // setButton.disabled = false;
   pauseButton.disabled = true;
   resetButton.disabled = true;
 
