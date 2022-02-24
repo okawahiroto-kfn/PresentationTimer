@@ -73,8 +73,12 @@ graph.strokeStyle = 'gray';
 graph.lineWidth = 40;
 graph.stroke();
 
-// window.onload = function() {
-// };
+window.onload = function() {
+  setButton.disabled = true;
+  startButton.disabled = true;
+  pauseButton.disabled = true;
+  resetButton.disabled = true;
+};
 
 // 入力ボタンが押された時の処理
 btnInput.addEventListener('click', function() {
@@ -128,6 +132,9 @@ btnInput.addEventListener('click', function() {
   let kakudo = Math.round(360 * pct / 100);
   console.log(kakudo + '°');
   };
+
+  setButton.disabled = false;
+
 });
 
 // 削除ボタンが押された時の処理
@@ -251,6 +258,7 @@ function setTimer() {
   // timerMinute.disabled = true;
   // timerSecond.disabled = true;
   // btnInput.disabled = true;
+  startButton.disabled = false;
 };
 
 // STARTボタンを押した時の処理
@@ -259,8 +267,15 @@ startButton.addEventListener('click', function() {
   let startTime = new Date();
   console.log('Start:' + startTime);
 
+  pauseButton.disabled = false;
+  resetButton.disabled = false;
+
   // setIntervalで1秒ごとにcountdownGraphを実行
   countdownTimer = setInterval(countdownGraph, 1000);
+
+  setButton.disabled = true;
+  startButton.disabled = true;
+
 });
 
 // 1秒ごとにグラフを描画
@@ -388,6 +403,15 @@ resetButton.addEventListener('click', function() {
   clearInterval(overTimeTimer);
   graphTime.style.color = 'black';
   setTimer();
+
+  if (modeButton == 'resume') {
+    modeButton = 'pause';
+    pauseButton.value = 'PAUSE';
+  };
+  
+  setButton.disabled = false;
+  pauseButton.disabled = true;
+  resetButton.disabled = true;
 });
 
 // 時間の合計を計算
