@@ -135,6 +135,8 @@ btnInput.addEventListener('click', function() {
 
   setButton.disabled = false;
 
+  setTimer();
+
 });
 
 // 削除ボタンが押された時の処理
@@ -273,6 +275,9 @@ startButton.addEventListener('click', function() {
   // setIntervalで1秒ごとにcountdownGraphを実行
   countdownTimer = setInterval(countdownGraph, 1000);
 
+  inputForm.style.display = 'none';
+
+  btnInput.disabled = true;
   setButton.disabled = true;
   startButton.disabled = true;
 
@@ -408,10 +413,13 @@ resetButton.addEventListener('click', function() {
     modeButton = 'pause';
     pauseButton.value = 'PAUSE';
   };
-  
+
+  btnInput.disabled = false;
   setButton.disabled = false;
   pauseButton.disabled = true;
   resetButton.disabled = true;
+
+  inputForm.style.display = 'block';
 });
 
 // 時間の合計を計算
