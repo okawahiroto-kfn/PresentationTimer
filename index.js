@@ -30,18 +30,22 @@ let sumSec = 0;
 let secToMin = 0;
 let minToSec = 0;
 
-// 行の時間を秒にしたものrowTimeSec
+// 各行の秒数
 let rowTimeSec = 0;
 
-// 行の時間を秒にしたものを合計したもの
+// 各行の秒数を足し込んだもの
 let rowTimeSecSum = 0;
 
-// 全ての時間を秒にしたものallTimeSec
+// 全ての時間の秒数
 let allTimeSec = 0;
 
+// カウントダウン用
 let countdownSeconds = 0;
+
+// カウントアップ用
 let countupSeconds = 0;
 
+// タイマー終了後の秒数
 let countupOverTimeSeconds = 0;
 
 let rowItem = '';
@@ -49,18 +53,13 @@ let rowCount = 0;
 let rowMin = 0;
 let rowSec = 0;
 
-// 全ての行の時間を秒に変換し、合計したもの(総合計秒)
-// let rowTimeSec = 0;
-
-// 各行の時間を秒に変換し、合計したもの(各行の秒)
-// let rowTimeSecSum = 0;
-
 let totalTime = 0;
 
 // canvas表示用(円グラフ)
 const canvas = document.getElementById('graph');
 const graph = canvas.getContext('2d');
 
+// グラフ内部の項目・残り時間
 const graphText = document.getElementById('graphText');
 const graphTime = document.getElementById('graphTime');
 
@@ -83,6 +82,12 @@ window.onload = function() {
 // 入力ボタンが押された時の処理
 btnInput.addEventListener('click', function() {
   console.log('入力ボタンが押されました');
+
+  // 時間が入力されているか確認
+  if ((Number(timerMinute.value) + Number(timerSecond.value)) == 0) {
+    alert('時間を入力してください(1秒以上)');
+    return;
+  };
 
   // 合計行の上に新しい行を追加
   let newRow = table.insertRow(table.rows.length - 1);
@@ -119,23 +124,14 @@ btnInput.addEventListener('click', function() {
   sumMin = 0;
 
   // 時間の合計を計算
-  totalTimeCalc();
+  // totalTimeCalc();
 
-  // tableの行数分ループ
-  for (let i = 1; i < (table.rows.length - 1); i++) {
-
-  // 各行の時間の割合を計算
-  let pct = table.rows[i].cells[3].innerText / sumSec * 100;
-  console.log(pct + '%');
-
-  // 各行の時間の割合を角度に変換
-  let kakudo = Math.round(360 * pct / 100);
-  console.log(kakudo + '°');
-  };
-
-  // setButton.disabled = false;
-
+  // グラフを計算・表示
   setTimer();
+
+  // 入力フォームにフォーカスし、空にする
+  document.getElementById('itemText').focus();
+  document.getElementById('itemText').value = '';
 
 });
 
@@ -179,59 +175,25 @@ function clickDelete(ele) {
 
 // setボタンが押された時の処理
 function setTimer() {
-  console.log('setボタンが押されました');
-
-  // 1秒も入力されていなかったら、アラートを出す。
-  if (allTimeSec == 0) {
-    alert('時間を入力してください(1秒以上)');
-    return;
-  };
-
-  // パーセントの合計
-  let pctGoukei = 0;
-
-  // tableの行数分ループ
-  for (let i = 1; i < (table.rows.length - 1); i++) {
-
-  // 各行の項目名を取得
-  let rowText = table.rows[i].cells[0].innerText;
-
-  // 各行の秒数を計算
-  minToSec = Number(table.rows[i].cells[2].innerText) * 60;
-  rowSec = Number(table.rows[i].cells[3].innerText);
-  rowTimeSec = minToSec + rowSec;
-
-  console.log(rowText + ':' + rowTimeSec);
-
-  // 各行の時間の割合を計算
-  let pct = rowTimeSec / allTimeSec;
-
-  // パーセントの合計を計算
-  pctGoukei = pctGoukei + pct;
-
-  // 円の描画開始・終了の角度
-  // console.log('開始：pctGoukei - pct:' + 360 * (pctGoukei - pct) + '°');
-
-  // 色をランダムに設定
-  let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
-
-  // 円グラフを描画
-  graph.beginPath();
-  graph.arc(150, 150, 100, (360 * (pctGoukei - pct)) * Math.PI /180, (360 * pctGoukei) * Math.PI /180, false);
-  graph.strokeStyle = randomColor;
-  graph.lineWidth = 40;
-  graph.stroke();
-  };
+  console.log('グラフ描画開始');
 
   // タイマー初期値を設定
   // カウントダウン・カウントアップの変数宣言
   totalTimeCalc();
 
+  // 時間の合計をカウントダウンに用いる。
   countdownSeconds = allTimeSec;
+
+  // カウントアップ用
   countupSeconds = 0;
 
+  // 行数カウント
   rowCount = 1;
+
+  // 各行の時間を秒に変換
   rowTimeSec = 0;
+
+  // 各行の時間を秒に変換したものの合計
   rowTimeSecSum = 0;
 
   rowItem = table.rows[rowCount].cells[0].innerText;
@@ -239,29 +201,50 @@ function setTimer() {
   rowSec = Number(table.rows[rowCount].cells[3].innerText);
   minToSec = rowMin * 60;
 
+  // 各行の秒数
   rowTimeSec = minToSec + rowSec;
 
   graphText.innerText = rowItem;
   graphTime.innerText = timeConvert(allTimeSec);
 
-  console.log(timeConvert(allTimeSec));
-
+  // 各行の秒数を足し込んでいく
   rowTimeSecSum = rowTimeSecSum + rowTimeSec;
 
-  console.log(rowTimeSec);
-  console.log(rowTimeSecSum);
-  // 1行目の項目名、秒数を取得
-  // rowMin = Number(table.rows[rowCount].cells[2].innerText);
-  // rowSec = Number(table.rows[rowCount].cells[3].innerText);
-  // rowTimeSecSum = rowMin * 60 + rowSec;
-  // graphText.innerText = rowItem;
-  // graphTime.innerText = allTimeSec;
+  // パーセントの合計
+  let pctGoukei = 0;
 
-  // inputForm.style.display = 'none';
-  // itemText.disabled = true;
-  // timerMinute.disabled = true;
-  // timerSecond.disabled = true;
-  // btnInput.disabled = true;
+  // tableの行数分ループ
+  for (let i = 1; i < (table.rows.length - 1); i++) {
+
+    // 各行の項目名を取得
+    let rowText = table.rows[i].cells[0].innerText;
+
+    // 各行の秒数を計算
+    minToSec = Number(table.rows[i].cells[2].innerText) * 60;
+    rowSec = Number(table.rows[i].cells[3].innerText);
+    rowTimeSec = minToSec + rowSec;
+
+    // 各行の項目と秒数を表示
+    console.log(rowText + ':' + rowTimeSec);
+
+    // 各行の時間の割合を計算
+    let pct = rowTimeSec / allTimeSec;
+
+    // パーセントの合計を計算
+    pctGoukei = pctGoukei + pct;
+
+    // 色をランダムに設定
+    let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+
+    // 円グラフを描画
+    graph.beginPath();
+    graph.arc(150, 150, 100, (360 * (pctGoukei - pct)) * Math.PI /180, (360 * pctGoukei) * Math.PI /180, false);
+    graph.strokeStyle = randomColor;
+    graph.lineWidth = 40;
+    graph.stroke();
+  };
+
+  // STARTボタンを無効化
   startButton.disabled = false;
 };
 
@@ -287,20 +270,9 @@ startButton.addEventListener('click', function() {
 // 1秒ごとにグラフを描画
 function countdownGraph() {
   console.log('----------------------');
-  console.log('タイマー開始');
-  let startTime = new Date();
-  console.log('Start:' + startTime);
 
   rowItem = table.rows[rowCount].cells[0].innerText;
-  // rowMin = Number(table.rows[rowCount].cells[2].innerText);
-  // rowSec = Number(table.rows[rowCount].cells[3].innerText);
-  // minToSec = rowMin * 60;
 
-  // rowTimeSecSum = rowTimeSecSum + rowTimeSec;
-
-
-  // 項目名と項目秒を取得・表示
-  console.log('▼前---');
   console.log('countdownSeconds:' + countdownSeconds);
   console.log('countupSeconds:' + countupSeconds);
   console.log('rowCount:' + rowCount);
@@ -315,19 +287,11 @@ function countdownGraph() {
     rowMin = Number(table.rows[rowCount].cells[2].innerText);
     rowSec = Number(table.rows[rowCount].cells[3].innerText);
     minToSec = rowMin * 60;
+
     rowTimeSec = minToSec + rowSec;
 
     rowTimeSecSum = rowTimeSecSum + rowTimeSec;
   };
-
-  console.log('▼後---');
-  console.log('countdownSeconds:' + countdownSeconds);
-  console.log('countupSeconds:' + countupSeconds);
-  console.log('rowCount:' + rowCount);
-  console.log('rowItem:' + rowItem);
-  console.log('rowTimeSec:' + rowTimeSec);
-  console.log('rowTimeSecSum:' + rowTimeSecSum);
-
 
 
   // カウントダウン・カウントアップを実行
@@ -349,15 +313,15 @@ function countdownGraph() {
 
   if (countdownSeconds <= 0) {
     clearInterval(countdownTimer);
-    console.log('END!');
+
     let endTime = new Date();
+
+    console.log('----------------------');
     console.log('END:' + endTime);
 
     graphText.innerText = 'END!';
 
     graphTime.style.color = 'red';
-
-    // graphTime.innerText = allTimeSec - countupSeconds;
 
     // タイマー終了表示
     graph.beginPath();
@@ -447,8 +411,6 @@ function totalTimeCalc() {
   totalSec.innerText = sec;
   totalTime = hour + ':' + min + ':' + sec;
 
-  // 合計時間を表示
-  // totalSec.innerText = timeConvert(allTimeSec);
 };
 
 // 秒を時間：分:秒に変換
@@ -456,9 +418,6 @@ function timeConvert(time) {
   hour = Math.floor(time / 3600);
   min = Math.floor(time / 60) % 60;
   sec = time % 60;
-
-  // min = ('0' + min).slice(-2);
-  // sec = ('0' + sec).slice(-2);
 
   if (hour > 0) {
     min = ('0' + min).slice(-2);
