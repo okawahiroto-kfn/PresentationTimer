@@ -265,6 +265,12 @@ startButton.addEventListener('click', function() {
   btnInput.disabled = true;
   // setButton.disabled = true;
   startButton.disabled = true;
+
+  // 削除ボタンを非表示
+  for (let i = 1; i < (table.rows.length - 1); i++) {
+    let deleteButton = table.rows[i].cells[4].children[0].style.display = 'none';
+  };
+
 });
 
 // 1秒ごとにグラフを描画
@@ -385,6 +391,12 @@ resetButton.addEventListener('click', function() {
   resetButton.disabled = true;
 
   inputForm.style.display = 'block';
+
+    // 削除ボタンを表示
+  for (let i = 1; i < (table.rows.length - 1); i++) {
+    let deleteButton = table.rows[i].cells[4].children[0].style.display = 'block';
+    console.log(deleteButton);
+  };
 });
 
 // 時間の合計を計算
