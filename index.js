@@ -101,6 +101,7 @@ btnInput.addEventListener('click', function() {
   let newCell03 = newRow.insertCell();
   let newCell04 = newRow.insertCell();
   let newCell05 = newRow.insertCell();
+  let newCell06 = newRow.insertCell();
 
   // 項目名を表示
   newCell01.innerText = itemText.value;
@@ -118,6 +119,9 @@ btnInput.addEventListener('click', function() {
 
   // 削除ボタンを追加
   newCell05.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)" class="delete">削除</button>';
+
+  // 時間表示用のセル追加(暫定)
+  newCell06.innerText = '';
 
   // ループして合計を出す前に0にする。
   sumSec = 0;
