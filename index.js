@@ -65,6 +65,8 @@ const graphTime = document.getElementById('graphTime');
 
 let progressPercent = 0;
 
+let rowTime = [];
+
 // タイマー初期表示
 graph.beginPath();
 graph.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
@@ -129,6 +131,9 @@ btnInput.addEventListener('click', function() {
 
   // 時間表示用のセル追加(暫定)
   newCell06.innerText = timeConvert(rowTimeSec);
+
+  rowTime.push(rowTimeSec);
+  console.log(rowTime);
 
   // ループして合計を出す前に0にする。
   sumSec = 0;
