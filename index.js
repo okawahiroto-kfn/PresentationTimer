@@ -98,7 +98,7 @@ btnInput.addEventListener('click', function() {
   let newRow = table.insertRow(table.rows.length - 1);
 
   // 各行にidを付与
-  newRow.setAttribute('id', table.rows.length - 2);
+  newRow.setAttribute('id', table.rows.length - 3);
 
   // セルを追加
   let newCell01 = newRow.insertCell();
@@ -123,7 +123,7 @@ btnInput.addEventListener('click', function() {
   newCell04.style.textAlign = 'right';
 
   // 削除ボタンを追加
-  newCell05.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)" class="delete">削除</button>';
+  newCell05.innerHTML = '<button id="' + (table.rows.length - 3) + '" onclick="clickDelete(this)" class="delete">削除</button>';
 
   // 分を秒に変換し、合計
   rowMin = Number(timerMinute.value);
@@ -170,14 +170,12 @@ btnInput.addEventListener('click', function() {
 function clickDelete(ele) {
   console.log('deleteボタンが押されました');
 
-  // 削除ボタンのidを取得
-  let id_value = ele.id;
 
-  // tableの各行の要素を取得
-  let row = document.getElementsByTagName('tr')[id_value];
+  // 削除ボタンの行の要素を取得
+  let tr = ele.parentNode.parentNode;
 
   // tableから削除
-  row.remove();
+  tr.remove();
 
   // ループして合計を出す前に0にする。
   sumMin = 0;
