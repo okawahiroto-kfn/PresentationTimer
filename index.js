@@ -120,8 +120,15 @@ btnInput.addEventListener('click', function() {
   // 削除ボタンを追加
   newCell05.innerHTML = '<button id="' + (table.rows.length - 2) + '" onclick="clickDelete(this)" class="delete">削除</button>';
 
+  // 分を秒に変換し、合計
+  rowMin = Number(timerMinute.value);
+  rowSec = Number(timerSecond.value);
+  minToSec = rowMin * 60;
+
+  rowTimeSec = minToSec + rowSec;
+
   // 時間表示用のセル追加(暫定)
-  newCell06.innerText = '';
+  newCell06.innerText = timeConvert(rowTimeSec);
 
   // ループして合計を出す前に0にする。
   sumSec = 0;
