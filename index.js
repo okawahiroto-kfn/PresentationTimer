@@ -4,6 +4,7 @@ const table = document.getElementById('table');
 const totalMin = document.getElementById('totalMin');
 const totalSec = document.getElementById('totalSec');
 const totalHour = document.getElementById('totalHour');
+const totalTime = document.getElementById('totalTime');
 
 const btnDelete = document.getElementById('btnDelete');
 const itemText = document.getElementById('itemText');
@@ -53,7 +54,7 @@ let rowCount = 0;
 let rowMin = 0;
 let rowSec = 0;
 
-let totalTime = 0;
+let totalTimehhmmss = 0;
 
 // canvas表示用(円グラフ)
 const canvas = document.getElementById('graph');
@@ -66,6 +67,8 @@ const graphTime = document.getElementById('graphTime');
 let progressPercent = 0;
 
 let rowTime = [];
+let rowItemAndTime= { itemText: '', rowTimeSec: 0 };
+let rowTimeTotal = 0;
 
 // タイマー初期表示
 graph.beginPath();
@@ -131,9 +134,21 @@ btnInput.addEventListener('click', function() {
 
   // 時間表示用のセル追加(暫定)
   newCell06.innerText = timeConvert(rowTimeSec);
+  newCell06.style.textAlign = 'right';
 
-  rowTime.push(rowTimeSec);
+  rowItemAndTime = { itemText: itemText.value, rowTimeSec: rowTimeSec };
+  rowTime.push(rowItemAndTime);
   console.log(rowTime);
+  console.log(rowTime.length);
+  console.log(rowTime[rowTime.length - 1].itemText);
+  console.log(rowTime[rowTime.length - 1].rowTimeSec);
+
+  let initialValue = 0;
+  rowTimeTotal = rowTime.reduce(function(previousValue, currentValue) {
+    return previousValue + currentValue.rowTimeSec
+  }, initialValue);
+  console.log(rowTimeTotal);
+  totalTime.innerText = timeConvert(rowTimeTotal);
 
   // ループして合計を出す前に0にする。
   sumSec = 0;
@@ -437,7 +452,7 @@ function totalTimeCalc() {
   totalHour.innerText = hour;
   totalMin.innerText = min;
   totalSec.innerText = sec;
-  totalTime = hour + ':' + min + ':' + sec;
+  totalTimehhmmss = hour + ':' + min + ':' + sec;
 
 };
 
