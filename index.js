@@ -136,17 +136,13 @@ btnInput.addEventListener('click', function() {
   newCell06.innerText = timeConvert(rowTimeSec);
   newCell06.style.textAlign = 'right';
 
+  // 各行の項目と秒数を配列に格納
   rowItemAndTime = { itemText: itemText.value, rowTimeSec: rowTimeSec };
   rowTime.push(rowItemAndTime);
   console.log(rowTime);
-  console.log(rowTime.length);
-  console.log(rowTime[rowTime.length - 1].itemText);
-  console.log(rowTime[rowTime.length - 1].rowTimeSec);
 
-  let initialValue = 0;
-  rowTimeTotal = rowTime.reduce(function(previousValue, currentValue) {
-    return previousValue + currentValue.rowTimeSec
-  }, initialValue);
+  // 配列の合計時間を計算、表示
+  totalTimeCalcArray();
   console.log(rowTimeTotal);
   totalTime.innerText = timeConvert(rowTimeTotal);
 
@@ -177,6 +173,20 @@ function clickDelete(ele) {
   // tableから削除
   tr.remove();
 
+  console.log(rowTime);
+
+  // 削除ボタンのid取得＝削除する行のid
+  let deleteRow = ele.id;
+
+  // 削除する行のidを元に配列から削除
+  rowTime.splice(deleteRow, 1);
+  console.log(rowTime);
+
+  // 配列の合計時間を計算、表示
+  totalTimeCalcArray();
+  totalTime.innerText = timeConvert(rowTimeTotal);
+
+
   // ループして合計を出す前に0にする。
   sumMin = 0;
   sumSec = 0;
@@ -186,14 +196,14 @@ function clickDelete(ele) {
 
   // trにidを付与
   let row = table.rows[i];
-  row.setAttribute('id', i);
+  row.setAttribute('id', i - 1);
 
   // 項目欄のナンバリング
   // row.cells[0].innerText = i + '.';
 
   // 削除ボタンにidを付与
   let dButton = table.rows[i].cells[4].children[0];
-  dButton.setAttribute('id', i);
+  dButton.setAttribute('id', i - 1);
   };
 
   // 時間の合計を計算
@@ -470,13 +480,22 @@ function timeConvert(time) {
   };
 };
 
+// 時間を超えたときの処理
 function timeOver() {
   console.log('timeOverが実行されました');
   overTimeTimer = setInterval(countupOverTime, 1000);
 };
 
+// 超過した時間のカウントアップ・表示
 function countupOverTime() {
   countupOverTimeSeconds ++;
   graphTime.innerText = timeConvert(countupOverTimeSeconds);
 };
 
+// 配列の時間を合計
+function totalTimeCalcArray() {
+  let initialValue = 0;
+  rowTimeTotal = rowTime.reduce(function(previousValue, currentValue) {
+    return previousValue + currentValue.rowTimeSec
+  }, initialValue);
+};
