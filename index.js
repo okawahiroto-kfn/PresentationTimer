@@ -248,8 +248,9 @@ function setTimer() {
   // 各行の秒数
   rowTimeSec = minToSec + rowSec;
 
-  graphText.innerText = rowItem;
-  graphTime.innerText = timeConvert(allTimeSec);
+  // グラフの中の項目と時間を表示(配列から取得)
+  graphText.innerText = rowTime[rowCount - 1].itemText;
+  graphTime.innerText = timeConvert(rowTimeTotal);
 
   // 各行の秒数を足し込んでいく
   rowTimeSecSum = rowTimeSecSum + rowTimeSec;
