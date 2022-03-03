@@ -182,16 +182,13 @@ function clickDelete(ele) {
   rowTime.splice(deleteRow, 1);
   console.log(rowTime);
 
-  // 配列の合計時間を計算、表示
-  totalTimeCalcArray();
-  totalTime.innerText = timeConvert(rowTimeTotal);
-
 
   // ループして合計を出す前に0にする。
   sumMin = 0;
   sumSec = 0;
 
   // tableの行数分ループしてidを更新
+  // タイトル行をとばすので、1から始める。
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
   // trにidを付与
@@ -206,10 +203,18 @@ function clickDelete(ele) {
   dButton.setAttribute('id', i - 1);
   };
 
+  // 配列の合計時間を計算、表示
+  totalTimeCalcArray();
+  totalTime.innerText = timeConvert(rowTimeTotal);
+
   // 時間の合計を計算
   totalTimeCalc();
 
   setTimer();
+
+  if (table.rows.length == 2) {
+    startButton.disabled = true;
+  };
 };
 
 // setボタンが押された時の処理
@@ -255,19 +260,14 @@ function setTimer() {
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
-    // 各行の項目名を取得
-    let rowText = table.rows[i].cells[0].innerText;
-
-    // 各行の秒数を計算
-    minToSec = Number(table.rows[i].cells[2].innerText) * 60;
-    rowSec = Number(table.rows[i].cells[3].innerText);
-    rowTimeSec = minToSec + rowSec;
+    // 各行の項目を配列から取得
+    let rowText = rowTime[i - 1].itemText;
 
     // 各行の項目と秒数を表示
-    console.log(rowText + ':' + rowTimeSec);
+    console.log(rowText + ':' + rowTimeTotal);
 
     // 各行の時間の割合を計算
-    let pct = rowTimeSec / allTimeSec;
+    let pct = rowTime[i - 1].rowTimeSec / rowTimeTotal;
 
     // パーセントの合計を計算
     pctGoukei = pctGoukei + pct;
@@ -307,7 +307,7 @@ startButton.addEventListener('click', function() {
 
   // 削除ボタンを非表示
   for (let i = 1; i < (table.rows.length - 1); i++) {
-    let deleteButton = table.rows[i].cells[4].children[0].style.display = 'none';
+    table.rows[i].cells[4].children[0].style.display = 'none';
   };
 
 });
