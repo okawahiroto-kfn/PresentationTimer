@@ -226,7 +226,7 @@ function setTimer() {
   totalTimeCalc();
 
   // 時間の合計をカウントダウンに用いる。
-  countdownSeconds = allTimeSec;
+  countdownSeconds = rowTimeTotal;
 
   // カウントアップ用
   countupSeconds = 0;
@@ -235,7 +235,7 @@ function setTimer() {
   rowCount = 1;
 
   // 各行の時間を秒に変換
-  rowTimeSec = 0;
+  // rowTimeSec = 0;
 
   // 各行の時間を秒に変換したものの合計
   rowTimeSecSum = 0;
@@ -263,12 +263,13 @@ function setTimer() {
 
     // 各行の項目を配列から取得
     let rowText = rowTime[i - 1].itemText;
+    let rowTimeSec = rowTime[i - 1].rowTimeSec;
 
     // 各行の項目と秒数を表示
-    console.log(rowText + ':' + rowTimeTotal);
+    console.log(rowText + ':' + rowTimeSec);
 
     // 各行の時間の割合を計算
-    let pct = rowTime[i - 1].rowTimeSec / rowTimeTotal;
+    let pct = rowTimeSec / rowTimeTotal;
 
     // パーセントの合計を計算
     pctGoukei = pctGoukei + pct;
