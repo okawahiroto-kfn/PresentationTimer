@@ -227,7 +227,7 @@ function clickDelete(ele) {
   totalTime.innerText = timeConvert(arrayTimeTotal);
 
   // 時間の合計を計算
-  totalTimeCalc();
+  // totalTimeCalc();
 
 
   // setTimer();
@@ -248,7 +248,7 @@ function setTimer() {
 
   // タイマー初期値を設定
   // カウントダウン・カウントアップの変数宣言
-  totalTimeCalc();
+  // totalTimeCalc();
   totalTimeCalcArray();
 
   // 時間の合計をカウントダウンに用いる。
@@ -263,21 +263,11 @@ function setTimer() {
   // 配列カウント
   arrayID = 0;
 
-  // 各行の時間を秒に変換
-  // rowTimeSec = 0;
-
   // 各行の時間を秒に変換したものの合計
   rowTimeSecSum = 0;
 
   rowItem = itemAndTimeArray[arrayID].itemText;
   rowTimeSec = itemAndTimeArray[arrayID].itemTimeSec;
-
-  // rowMin = Number(table.rows[rowCount].cells[2].innerText);
-  // rowSec = Number(table.rows[rowCount].cells[3].innerText);
-  // minToSec = rowMin * 60;
-
-  // // 各行の秒数
-  // rowTimeSec = minToSec + rowSec;
 
   timerItem.innerText = itemAndTimeArray[arrayID].itemText;
   timerTime.innerText = timeConvert(arrayTimeTotal);
@@ -339,7 +329,6 @@ startButton.addEventListener('click', function() {
 
   // ボタンを無効化
   btnInput.disabled = true;
-  // setButton.disabled = true;
   startButton.disabled = true;
 
   // 削除ボタンを非表示
@@ -353,24 +342,19 @@ startButton.addEventListener('click', function() {
 function countdownGraph() {
   console.log('----------------------');
 
-  rowItem = table.rows[rowCount].cells[0].innerText;
+  rowItem = itemAndTimeArray[arrayID].itemText;
 
   console.log('countdownSeconds:' + countdownSeconds);
   console.log('countupSeconds:' + countupSeconds);
-  console.log('rowCount:' + rowCount);
+  console.log('arrayID:' + arrayID);
   console.log('rowItem:' + rowItem);
   console.log('rowTimeSec:' + rowTimeSec);
   console.log('rowTimeSecSum:' + rowTimeSecSum);
 
   // カウントアップした秒が項目秒の合計と等しくなったら次の行に移る。
   if (countupSeconds + 1 >= rowTimeSecSum) {
-    rowCount = rowCount + 1;
 
-    rowMin = Number(table.rows[rowCount].cells[2].innerText);
-    rowSec = Number(table.rows[rowCount].cells[3].innerText);
-    minToSec = rowMin * 60;
-
-    rowTimeSec = minToSec + rowSec;
+    arrayID = arrayID + 1;
 
     rowTimeSecSum = rowTimeSecSum + rowTimeSec;
   };
@@ -381,10 +365,10 @@ function countdownGraph() {
   countupSeconds = countupSeconds + 1;
 
   timerItem.innerText = rowItem;
-  timerTime.innerText = timeConvert(allTimeSec - countupSeconds);
+  timerTime.innerText = timeConvert(arrayTimeTotal - countupSeconds);
 
   // // 全体の時間の何%経過したか計算
-  percentProgress = countupSeconds / allTimeSec;
+  percentProgress = countupSeconds / arrayTimeTotal;
 
   // 円グラフの経過時間をグレーで表示
   timerGraph.beginPath();
@@ -421,11 +405,15 @@ function countdownGraph() {
 // PAUSEボタン(RESUMEボタン)を押した時の処理------------------------------------------------------------------------------------------------------------------------
 function pause() {
   switch (modeButton) {
+
+    // PAUSEボタンが押されたとき
     case 'pause':
       console.log('pauseボタンが押されました');
       pauseButton.value = 'RESUME';
       modeButton = 'resume';
 
+      // タイマーを一時停止
+      // カウントダウンを確認し、一時停止するタイマーを選択
       if (countdownSeconds > 0) {
         clearInterval(countdownTimer);
       } else {
@@ -433,11 +421,14 @@ function pause() {
       }
       break;
 
+      // RESUMEボタンが押されたとき
       case 'resume':
       console.log('resumeボタンが押されました');
       pauseButton.value = 'PAUSE';
       modeButton = 'pause';
 
+      // タイマーを再開
+      // カウントダウンを確認し、再開するタイマーを選択
       if (countdownSeconds > 0) {
         countdownTimer = setInterval(countdownGraph, 1000);
       } else {
@@ -462,7 +453,6 @@ resetButton.addEventListener('click', function() {
   };
 
   btnInput.disabled = false;
-  // setButton.disabled = false;
   pauseButton.disabled = true;
   resetButton.disabled = true;
 
@@ -536,7 +526,7 @@ function totalTimeCalcArray() {
   }, initialValue);
 };
 
-// タイマー初期化
+// タイマー初期化------------------------------------------------------------------------------------------------------------------------
 function timerInit() {
   console.log('timerInitが実行されました');
   timerGraph.beginPath();
