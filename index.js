@@ -31,6 +31,9 @@ let sumSec = 0;
 let secToMin = 0;
 let minToSec = 0;
 
+// 入力された時間の秒数
+let inputTimeSec = 0;
+
 // 各行の秒数
 let rowTimeSec = 0;
 
@@ -66,10 +69,11 @@ const timerTime = document.getElementById('timerTime');
 
 // 項目と時間の配列
 let itemAndTimeArray = [];
-let rowItemAndTime= { itemText: '', rowTimeSec: 0 };
+let arrayItemAndTime= { itemText: '', itemTimeSec: 0 };
+let arrayID = 0;
 
 // 配列の時間の合計
-let rowTimeTotal = 0;
+let arrayTimeTotal = 0;
 
 // 追加する行
 let newRow = '';
@@ -148,21 +152,21 @@ btnInput.addEventListener('click', function() {
   rowSec = Number(timerSecond.value);
   minToSec = rowMin * 60;
 
-  rowTimeSec = minToSec + rowSec;
+  inputTimeSec = minToSec + rowSec;
 
   // 時間表示用のセル追加(暫定)
-  newCell06.innerText = timeConvert(rowTimeSec);
+  newCell06.innerText = timeConvert(inputTimeSec);
   newCell06.style.textAlign = 'right';
 
   // 各行の項目と秒数を配列に格納
-  rowItemAndTime = { itemText: itemText.value, rowTimeSec: rowTimeSec };
-  itemAndTimeArray.push(rowItemAndTime);
+  arrayItemAndTime = { itemText: itemText.value, itemTimeSec: inputTimeSec };
+  itemAndTimeArray.push(arrayItemAndTime);
   console.log(itemAndTimeArray);
 
   // 配列の合計時間を計算、表示
   totalTimeCalcArray();
-  console.log(rowTimeTotal);
-  totalTime.innerText = timeConvert(rowTimeTotal);
+  console.log(arrayTimeTotal);
+  totalTime.innerText = timeConvert(arrayTimeTotal);
 
   // ループして合計を出す前に0にする。
   sumSec = 0;
@@ -220,7 +224,7 @@ function clickDelete(ele) {
 
   // 配列の合計時間を計算、表示
   totalTimeCalcArray();
-  totalTime.innerText = timeConvert(rowTimeTotal);
+  totalTime.innerText = timeConvert(arrayTimeTotal);
 
   // 時間の合計を計算
   totalTimeCalc();
@@ -245,9 +249,10 @@ function setTimer() {
   // タイマー初期値を設定
   // カウントダウン・カウントアップの変数宣言
   totalTimeCalc();
+  totalTimeCalcArray();
 
   // 時間の合計をカウントダウンに用いる。
-  countdownSeconds = rowTimeTotal;
+  countdownSeconds = arrayTimeTotal;
 
   // カウントアップ用
   countupSeconds = 0;
@@ -255,22 +260,27 @@ function setTimer() {
   // 行数カウント
   rowCount = 1;
 
+  // 配列カウント
+  arrayID = 0;
+
   // 各行の時間を秒に変換
   // rowTimeSec = 0;
 
   // 各行の時間を秒に変換したものの合計
   rowTimeSecSum = 0;
 
-  rowItem = table.rows[rowCount].cells[0].innerText;
-  rowMin = Number(table.rows[rowCount].cells[2].innerText);
-  rowSec = Number(table.rows[rowCount].cells[3].innerText);
-  minToSec = rowMin * 60;
+  rowItem = itemAndTimeArray[arrayID].itemText;
+  rowTimeSec = itemAndTimeArray[arrayID].itemTimeSec;
 
-  // 各行の秒数
-  rowTimeSec = minToSec + rowSec;
+  // rowMin = Number(table.rows[rowCount].cells[2].innerText);
+  // rowSec = Number(table.rows[rowCount].cells[3].innerText);
+  // minToSec = rowMin * 60;
 
-  timerItem.innerText = itemAndTimeArray[rowCount - 1].itemText;
-  timerTime.innerText = timeConvert(rowTimeTotal);
+  // // 各行の秒数
+  // rowTimeSec = minToSec + rowSec;
+
+  timerItem.innerText = itemAndTimeArray[arrayID].itemText;
+  timerTime.innerText = timeConvert(arrayTimeTotal);
 
   // 各行の秒数を足し込んでいく
   rowTimeSecSum = rowTimeSecSum + rowTimeSec;
@@ -279,17 +289,17 @@ function setTimer() {
   percentSum = 0;
 
   // tableの行数分ループ
-  for (let i = 1; i < (table.rows.length - 1); i++) {
+  for (let i = 0; i < (itemAndTimeArray.length - 1); i++) {
 
     // 各行の項目を配列から取得
-    rowItem = itemAndTimeArray[i - 1].itemText;
-    rowTimeSec = itemAndTimeArray[i - 1].rowTimeSec;
+    rowItem = itemAndTimeArray[i].itemText;
+    rowTimeSec = itemAndTimeArray[i].itemTimeSec;
 
     // 各行の項目と秒数を表示
     console.log(rowItem + ':' + rowTimeSec);
 
     // 各行の時間の割合を計算
-    percent = rowTimeSec / rowTimeTotal;
+    percent = rowTimeSec / arrayTimeTotal;
 
     // パーセントの合計を計算
     percentSum = percentSum + percent;
@@ -521,8 +531,8 @@ function countupOverTime() {
 // 配列の時間を合計------------------------------------------------------------------------------------------------------------------------
 function totalTimeCalcArray() {
   let initialValue = 0;
-  rowTimeTotal = itemAndTimeArray.reduce(function(previousValue, currentValue) {
-    return previousValue + currentValue.rowTimeSec
+  arrayTimeTotal = itemAndTimeArray.reduce(function(previousValue, currentValue) {
+    return previousValue + currentValue.itemTimeSec;
   }, initialValue);
 };
 
