@@ -57,34 +57,52 @@ let rowSec = 0;
 let totalTimehhmmss = 0;
 
 // canvas表示用(円グラフ)
-const canvas = document.getElementById('graph');
-const graph = canvas.getContext('2d');
+const canvas = document.getElementById('timerGraph');
+const timerGraph = canvas.getContext('2d');
 
 // グラフ内部の項目・残り時間
-const graphText = document.getElementById('graphText');
-const graphTime = document.getElementById('graphTime');
+const timerItem = document.getElementById('timerItem');
+const timerTime = document.getElementById('timerTime');
 
-let progressPercent = 0;
-
-let rowTime = [];
+// 項目と時間の配列
+let itemAndTimeArray = [];
 let rowItemAndTime= { itemText: '', rowTimeSec: 0 };
+
+// 配列の時間の合計
 let rowTimeTotal = 0;
 
-// タイマー初期表示
-graph.beginPath();
-graph.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
-graph.strokeStyle = 'gray';
-graph.lineWidth = 40;
-graph.stroke();
+// 追加する行
+let newRow = '';
+
+// 削除する行の要素(tr)
+let deleteRowTr = '';
+
+// 削除する行のID
+let deleteRowId = 0;
+
+// tableの各行
+let tableRow = '';
+
+// tableの削除ボタン
+let tableDeleteButton = '';
+
+// グラフ表示に用いるパーセント
+let percent = 0;
+let percentSum = 0;
+let percentProgress = 0;
+
+// タイマー初期表示------------------------------------------------------------------------------------------------------------------------
+timerInit();
 
 window.onload = function() {
   // setButton.disabled = true;
+  timerInit();
   startButton.disabled = true;
   pauseButton.disabled = true;
   resetButton.disabled = true;
 };
 
-// 入力ボタンが押された時の処理
+// 入力ボタンが押された時の処理------------------------------------------------------------------------------------------------------------------------
 btnInput.addEventListener('click', function() {
   console.log('入力ボタンが押されました');
 
@@ -95,7 +113,7 @@ btnInput.addEventListener('click', function() {
   };
 
   // 合計行の上に新しい行を追加
-  let newRow = table.insertRow(table.rows.length - 1);
+  newRow = table.insertRow(table.rows.length - 1);
 
   // 各行にidを付与
   newRow.setAttribute('id', table.rows.length - 3);
@@ -138,8 +156,8 @@ btnInput.addEventListener('click', function() {
 
   // 各行の項目と秒数を配列に格納
   rowItemAndTime = { itemText: itemText.value, rowTimeSec: rowTimeSec };
-  rowTime.push(rowItemAndTime);
-  console.log(rowTime);
+  itemAndTimeArray.push(rowItemAndTime);
+  console.log(itemAndTimeArray);
 
   // 配列の合計時間を計算、表示
   totalTimeCalcArray();
@@ -162,26 +180,23 @@ btnInput.addEventListener('click', function() {
 
 });
 
-// 削除ボタンが押された時の処理
+// 削除ボタンが押された時の処理------------------------------------------------------------------------------------------------------------------------
 function clickDelete(ele) {
   console.log('deleteボタンが押されました');
 
 
-  // 削除ボタンの行の要素を取得
-  let tr = ele.parentNode.parentNode;
+  // 削除ボタンの行の要素(tr)を取得
+  deleteRowTr = ele.parentNode.parentNode;
 
-  // tableから削除
-  tr.remove();
-
-  console.log(rowTime);
+  // tableから行を削除
+  deleteRowTr.remove();
 
   // 削除ボタンのid取得＝削除する行のid
-  let deleteRow = ele.id;
+  deleteRowId = ele.id;
 
   // 削除する行のidを元に配列から削除
-  rowTime.splice(deleteRow, 1);
-  console.log(rowTime);
-
+  itemAndTimeArray.splice(deleteRowId, 1);
+  console.log(itemAndTimeArray);
 
   // ループして合計を出す前に0にする。
   sumMin = 0;
@@ -192,15 +207,15 @@ function clickDelete(ele) {
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
   // trにidを付与
-  let row = table.rows[i];
-  row.setAttribute('id', i - 1);
+  tableRow = table.rows[i];
+  tableRow.setAttribute('id', i - 1);
 
   // 項目欄のナンバリング
   // row.cells[0].innerText = i + '.';
 
   // 削除ボタンにidを付与
-  let dButton = table.rows[i].cells[4].children[0];
-  dButton.setAttribute('id', i - 1);
+  tableDeleteButton = table.rows[i].cells[4].children[0];
+  tableDeleteButton.setAttribute('id', i - 1);
   };
 
   // 配列の合計時間を計算、表示
@@ -217,14 +232,13 @@ function clickDelete(ele) {
   // 行に項目がある場合は、グラフを表示する。
   if (table.rows.length == 2) {
     startButton.disabled = true;
-    graphText.innerText = 'Item';
-    graphTime.innerText = 'Time';
+    timerInit();
   } else {
     setTimer();
   };
 };
 
-// setボタンが押された時の処理
+// setボタンが押された時の処理------------------------------------------------------------------------------------------------------------------------
 function setTimer() {
   console.log('グラフ描画開始');
 
@@ -255,60 +269,65 @@ function setTimer() {
   // 各行の秒数
   rowTimeSec = minToSec + rowSec;
 
-  graphText.innerText = rowTime[rowCount - 1].itemText;
-  graphTime.innerText = timeConvert(rowTimeTotal);
+  timerItem.innerText = itemAndTimeArray[rowCount - 1].itemText;
+  timerTime.innerText = timeConvert(rowTimeTotal);
 
   // 各行の秒数を足し込んでいく
   rowTimeSecSum = rowTimeSecSum + rowTimeSec;
 
   // パーセントの合計
-  let pctGoukei = 0;
+  percentSum = 0;
 
   // tableの行数分ループ
   for (let i = 1; i < (table.rows.length - 1); i++) {
 
     // 各行の項目を配列から取得
-    let rowText = rowTime[i - 1].itemText;
-    let rowTimeSec = rowTime[i - 1].rowTimeSec;
+    rowItem = itemAndTimeArray[i - 1].itemText;
+    rowTimeSec = itemAndTimeArray[i - 1].rowTimeSec;
 
     // 各行の項目と秒数を表示
-    console.log(rowText + ':' + rowTimeSec);
+    console.log(rowItem + ':' + rowTimeSec);
 
     // 各行の時間の割合を計算
-    let pct = rowTimeSec / rowTimeTotal;
+    percent = rowTimeSec / rowTimeTotal;
 
     // パーセントの合計を計算
-    pctGoukei = pctGoukei + pct;
+    percentSum = percentSum + percent;
 
     // 色をランダムに設定
     let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
 
     // 円グラフを描画
-    graph.beginPath();
-    graph.arc(150, 150, 100, (360 * (pctGoukei - pct)) * Math.PI /180, (360 * pctGoukei) * Math.PI /180, false);
-    graph.strokeStyle = randomColor;
-    graph.lineWidth = 40;
-    graph.stroke();
+    timerGraph.beginPath();
+    timerGraph.arc(150, 150, 100, (360 * (percentSum - percent)) * Math.PI /180, (360 * percentSum) * Math.PI /180, false);
+    timerGraph.strokeStyle = randomColor;
+    timerGraph.lineWidth = 40;
+    timerGraph.stroke();
   };
 
   // STARTボタンを無効化
   startButton.disabled = false;
 };
 
-// STARTボタンを押した時の処理
+// STARTボタンを押した時の処理------------------------------------------------------------------------------------------------------------------------
 startButton.addEventListener('click', function() {
   console.log('startボタンが押されました');
+
+  // STARTボタンが押された時間
   let startTime = new Date();
   console.log('Start:' + startTime);
 
+  // ボタンの有効化
   pauseButton.disabled = false;
   resetButton.disabled = false;
 
   // setIntervalで1秒ごとにcountdownGraphを実行
   countdownTimer = setInterval(countdownGraph, 1000);
 
+  // 入力部分を非表示
   inputForm.style.display = 'none';
 
+  // ボタンを無効化
   btnInput.disabled = true;
   // setButton.disabled = true;
   startButton.disabled = true;
@@ -320,7 +339,7 @@ startButton.addEventListener('click', function() {
 
 });
 
-// 1秒ごとにグラフを描画
+// 1秒ごとにグラフを描画------------------------------------------------------------------------------------------------------------------------
 function countdownGraph() {
   console.log('----------------------');
 
@@ -351,18 +370,18 @@ function countdownGraph() {
   countdownSeconds = countdownSeconds - 1;
   countupSeconds = countupSeconds + 1;
 
-  graphText.innerText = rowItem;
-  graphTime.innerText = timeConvert(allTimeSec - countupSeconds);
+  timerItem.innerText = rowItem;
+  timerTime.innerText = timeConvert(allTimeSec - countupSeconds);
 
   // // 全体の時間の何%経過したか計算
-  progressPercent = countupSeconds / allTimeSec;
+  percentProgress = countupSeconds / allTimeSec;
 
   // 円グラフの経過時間をグレーで表示
-  graph.beginPath();
-  graph.arc(150, 150, 100, 0 * Math.PI / 180, (360 * progressPercent) * Math.PI /180, false);
-  graph.strokeStyle = 'gray';
-  graph.lineWidth = 40;
-  graph.stroke();
+  timerGraph.beginPath();
+  timerGraph.arc(150, 150, 100, 0 * Math.PI / 180, (360 * percentProgress) * Math.PI /180, false);
+  timerGraph.strokeStyle = 'gray';
+  timerGraph.lineWidth = 40;
+  timerGraph.stroke();
 
   if (countdownSeconds <= 0) {
     clearInterval(countdownTimer);
@@ -372,16 +391,16 @@ function countdownGraph() {
     console.log('----------------------');
     console.log('END:' + endTime);
 
-    graphText.innerText = 'END!';
+    timerItem.innerText = 'END!';
 
-    graphTime.style.color = 'red';
+    timerTime.style.color = 'red';
 
     // タイマー終了表示
-    graph.beginPath();
-    graph.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
-    graph.strokeStyle = 'red';
-    graph.lineWidth = 40;
-    graph.stroke();
+    timerGraph.beginPath();
+    timerGraph.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
+    timerGraph.strokeStyle = 'red';
+    timerGraph.lineWidth = 40;
+    timerGraph.stroke();
 
     countupOverTimeSeconds = 0;
 
@@ -389,7 +408,7 @@ function countdownGraph() {
   };
 };
 
-// PAUSEボタン(RESUMEボタン)を押した時の処理
+// PAUSEボタン(RESUMEボタン)を押した時の処理------------------------------------------------------------------------------------------------------------------------
 function pause() {
   switch (modeButton) {
     case 'pause':
@@ -419,12 +438,12 @@ function pause() {
   };
 };
 
-// RESETボタンを押した時の処理
+// RESETボタンを押した時の処理------------------------------------------------------------------------------------------------------------------------
 resetButton.addEventListener('click', function() {
   console.log('resetボタンが押されました');
   clearInterval(countdownTimer);
   clearInterval(overTimeTimer);
-  graphTime.style.color = 'black';
+  timerTime.style.color = 'black';
   setTimer();
 
   if (modeButton == 'resume') {
@@ -441,12 +460,11 @@ resetButton.addEventListener('click', function() {
 
     // 削除ボタンを表示
   for (let i = 1; i < (table.rows.length - 1); i++) {
-    let deleteButton = table.rows[i].cells[4].children[0].style.display = 'block';
-    console.log(deleteButton);
+    table.rows[i].cells[4].children[0].style.display = 'block';
   };
 });
 
-// 時間の合計を計算
+// 時間の合計を計算------------------------------------------------------------------------------------------------------------------------
 function totalTimeCalc() {
   console.log('totalTimeCalcが実行されました');
   sumMin = 0;
@@ -472,7 +490,7 @@ function totalTimeCalc() {
 
 };
 
-// 秒を時間：分:秒に変換
+// 秒を時間：分:秒に変換------------------------------------------------------------------------------------------------------------------------
 function timeConvert(time) {
   hour = Math.floor(time / 3600);
   min = Math.floor(time / 60) % 60;
@@ -488,22 +506,37 @@ function timeConvert(time) {
   };
 };
 
-// 時間を超えたときの処理
+// 時間を超えたときの処理------------------------------------------------------------------------------------------------------------------------
 function timeOver() {
   console.log('timeOverが実行されました');
   overTimeTimer = setInterval(countupOverTime, 1000);
 };
 
-// 超過した時間のカウントアップ・表示
+// 超過した時間のカウントアップ・表示------------------------------------------------------------------------------------------------------------------------
 function countupOverTime() {
   countupOverTimeSeconds ++;
-  graphTime.innerText = timeConvert(countupOverTimeSeconds);
+  timerTime.innerText = timeConvert(countupOverTimeSeconds);
 };
 
-// 配列の時間を合計
+// 配列の時間を合計------------------------------------------------------------------------------------------------------------------------
 function totalTimeCalcArray() {
   let initialValue = 0;
-  rowTimeTotal = rowTime.reduce(function(previousValue, currentValue) {
+  rowTimeTotal = itemAndTimeArray.reduce(function(previousValue, currentValue) {
     return previousValue + currentValue.rowTimeSec
   }, initialValue);
+};
+
+// タイマー初期化
+function timerInit() {
+  console.log('timerInitが実行されました');
+  timerGraph.beginPath();
+  timerGraph.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
+  timerGraph.strokeStyle = 'gray';
+  timerGraph.lineWidth = 40;
+  timerGraph.stroke();
+
+  timerItem.innerText = 'Item';
+  timerTime.innerText = 'Time';
+  timerTime.style.color = 'black';
+
 };
