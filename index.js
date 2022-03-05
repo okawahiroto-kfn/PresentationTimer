@@ -210,10 +210,17 @@ function clickDelete(ele) {
   // 時間の合計を計算
   totalTimeCalc();
 
-  setTimer();
 
+  // setTimer();
+
+  // 行を全て削除したら、グラフの中は、初期値(Item・Time)を表示、スタートボタンを非活性化する。
+  // 行に項目がある場合は、グラフを表示する。
   if (table.rows.length == 2) {
     startButton.disabled = true;
+    graphText.innerText = 'Item';
+    graphTime.innerText = 'Time';
+  } else {
+    setTimer();
   };
 };
 
@@ -248,15 +255,8 @@ function setTimer() {
   // 各行の秒数
   rowTimeSec = minToSec + rowSec;
 
-  // 行を全て削除したら、グラフの中は、初期値(Item・Time)を表示する
-  if (table.rows.length != 2) {;
-    // グラフの中の項目と時間を表示(配列から取得)
-    graphText.innerText = rowTime[rowCount - 1].itemText;
-    graphTime.innerText = timeConvert(rowTimeTotal);
-  } else {
-    graphText.innerText = 'Item';
-    graphTime.innerText = 'Time';
-  };
+  graphText.innerText = rowTime[rowCount - 1].itemText;
+  graphTime.innerText = timeConvert(rowTimeTotal);
 
   // 各行の秒数を足し込んでいく
   rowTimeSecSum = rowTimeSecSum + rowTimeSec;
