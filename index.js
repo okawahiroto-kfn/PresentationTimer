@@ -381,10 +381,22 @@ function countdownGraph() {
   // カウントアップ
   countupSeconds = countupSeconds + 1;
 
+  // 項目ごとの時間のカウントアップ
+  rowTimeCountupSeconds = rowTimeCountupSeconds + 1;
+
+  // 各項目の時間
+  rowTimeSec = itemAndTimeArray[arrayID].itemTimeSec;
+
+  // 各項目の残り時間
+  remainRowTimeSec = rowTimeSec - rowTimeCountupSeconds;
+
   console.log(remainTimeSec);
+  console.log(remainRowTimeSec);
 
   // グラフに残り時間を表示
   timerTime.innerText = timeConvert(remainTimeSec);
+  timerItem.innerText = itemAndTimeArray[arrayID].itemText;
+  table.rows[tableRowID].cells[6].innerText = timeConvert(remainRowTimeSec);
 
   // // 全体の時間の何%経過したか計算
   percentProgress = countupSeconds / arrayTimeTotal;
@@ -418,9 +430,15 @@ function countdownGraph() {
 
     countupOverTimeSeconds = 0;
 
-    // timeOver();
+    timeOver();
   };
 
+  // 各項目の残り時間が0になったら、次の項目へ
+  if (remainRowTimeSec <= 0) {
+    arrayID = arrayID + 1;
+    tableRowID = tableRowID + 1;
+    rowTimeCountupSeconds = 0;
+  };
 };
 
 // PAUSEボタン(RESUMEボタン)を押した時の処理------------------------------------------------------------------------------------------------------------------------
