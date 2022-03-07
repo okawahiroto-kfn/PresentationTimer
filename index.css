@@ -79,8 +79,11 @@ body {
   background-color: silver;
 }
 
+.p-headTime {
+  /* width: 4em; */
+}
 .p-rowRemainTime {
-  color: black;
+  color: #363636;
 }
 
 .p-rowRemainTimeOver {
