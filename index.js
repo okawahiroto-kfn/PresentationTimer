@@ -1,19 +1,14 @@
 const btnInput = document.getElementById('btnInput');
 
 const table = document.getElementById('table');
-const totalMin = document.getElementById('totalMin');
-const totalSec = document.getElementById('totalSec');
-const totalHour = document.getElementById('totalHour');
 const totalTime = document.getElementById('totalTime');
 
-const btnDelete = document.getElementById('btnDelete');
 const itemText = document.getElementById('itemText');
 const inputForm = document.getElementById('inputForm');
 
 const timerMinute = document.getElementById('timerMinute');
 const timerSecond = document.getElementById('timerSecond');
 
-const setButton = document.getElementById('setButton');
 const startButton = document.getElementById('startButton');
 const pauseButton = document.getElementById('pauseButton');
 const resetButton = document.getElementById('resetButton');
@@ -26,9 +21,6 @@ let hour = 0;
 let min = 0;
 let sec = 0;
 
-let sumMin = 0;
-let sumSec = 0;
-let secToMin = 0;
 let minToSec = 0;
 
 // 入力された時間の秒数
@@ -39,12 +31,6 @@ let rowTimeSec = 0;
 
 // 各行の秒数を足し込んだもの
 let rowTimeSecSum = 0;
-
-// 全ての時間の秒数
-let allTimeSec = 0;
-
-// カウントダウン用
-let countdownSeconds = 0;
 
 // カウントアップ用
 let countupSeconds = 0;
@@ -57,11 +43,8 @@ let remainRowTimeSec = 0;
 let countupOverTimeSeconds = 0;
 
 let rowItem = '';
-let rowCount = 0;
 let rowMin = 0;
 let rowSec = 0;
-
-let totalTimehhmmss = 0;
 
 // canvas表示用(円グラフ)
 const canvas = document.getElementById('timerGraph');
@@ -91,6 +74,7 @@ let deleteRowId = 0;
 // tableの各行
 let tableRow = '';
 
+// tableの各行のID
 let tableRowID = 0;
 
 // tableの削除ボタン
@@ -101,9 +85,7 @@ let percent = 0;
 let percentSum = 0;
 let percentProgress = 0;
 
-// タイマー初期表示------------------------------------------------------------------------------------------------------------------------
-timerInit();
-
+// 読み込み時------------------------------------------------------------------------------------------------------------------------
 window.onload = function() {
   timerInit();
   startButton.disabled = true;
@@ -112,7 +94,10 @@ window.onload = function() {
   arrayID = 0;
 };
 
-// 入力ボタンが押された時の処理------------------------------------------------------------------------------------------------------------------------
+// タイマー初期表示------------------------------------------------------------------------------------------------------------------------
+timerInit();
+
+// 入力ボタン------------------------------------------------------------------------------------------------------------------------
 btnInput.addEventListener('click', function() {
   console.log('入力ボタンが押されました');
 
@@ -134,11 +119,8 @@ btnInput.addEventListener('click', function() {
   let newRemainCell = newRow.insertCell();
   let newDeleteCell = newRow.insertCell();
 
-
   // 項目名を表示
   newItemCell.innerText = itemText.value;
-
-
 
   // 分を秒に変換し、合計
   rowMin = Number(timerMinute.value);
@@ -157,7 +139,7 @@ btnInput.addEventListener('click', function() {
   newRemainCell.style.textAlign = 'right';
 
   // 削除ボタンを追加
-  newDeleteCell.innerHTML = '<button id="' + (table.rows.length - 3) + '" onclick="clickDelete(this)" class="delete">削除</button>';
+  newDeleteCell.innerHTML = '<button id="' + (table.rows.length - 3) + '" onclick="clickDelete(this)" class="delete"></button>';
   newDeleteCell.style.textAlign = 'center';
 
   // 各行の項目と秒数を配列に格納
@@ -172,13 +154,6 @@ btnInput.addEventListener('click', function() {
   console.log(arrayTimeTotal);
   totalTime.innerText = timeConvert(arrayTimeTotal);
 
-  // ループして合計を出す前に0にする。
-  sumSec = 0;
-  sumMin = 0;
-
-  // 時間の合計を計算
-  // totalTimeCalc();
-
   // グラフを計算・表示
   setTimer();
 
@@ -188,7 +163,7 @@ btnInput.addEventListener('click', function() {
 
 });
 
-// 削除ボタンが押された時の処理------------------------------------------------------------------------------------------------------------------------
+// 削除ボタン------------------------------------------------------------------------------------------------------------------------
 function clickDelete(ele) {
   console.log('deleteボタンが押されました');
 
@@ -205,10 +180,6 @@ function clickDelete(ele) {
   // 削除する行のidを元に配列から削除
   itemAndTimeArray.splice(deleteRowId, 1);
   console.log(itemAndTimeArray);
-
-  // ループして合計を出す前に0にする。
-  sumMin = 0;
-  sumSec = 0;
 
   // tableの行数分ループしてidを更新
   // タイトル行をとばすので、1から始める。
@@ -230,12 +201,6 @@ function clickDelete(ele) {
   totalTimeCalcArray();
   totalTime.innerText = timeConvert(arrayTimeTotal);
 
-  // 時間の合計を計算
-  // totalTimeCalc();
-
-
-  // setTimer();
-
   // 行を全て削除したら、グラフの中は、初期値(Item・Time)を表示、スタートボタンを非活性化する。
   // 行に項目がある場合は、グラフを表示する。
   if (table.rows.length == 2) {
@@ -246,26 +211,18 @@ function clickDelete(ele) {
   };
 };
 
-// setボタンが押された時の処理------------------------------------------------------------------------------------------------------------------------
+// タイマーのセット------------------------------------------------------------------------------------------------------------------------
 function setTimer() {
   console.log('グラフ描画開始');
 
-  // タイマー初期値を設定
-  // カウントダウン・カウントアップの変数宣言
-  // totalTimeCalc();
+  // 配列の合計時間を計算
   totalTimeCalcArray();
-
-  // 時間の合計をカウントダウンに用いる。
-  countdownSeconds = arrayTimeTotal;
 
   // カウントアップ用
   countupSeconds = 0;
 
   // 項目ごとの時間のカウントアップ用
   rowTimeCountupSeconds = 0;
-
-  // 行数カウント
-  rowCount = 1;
 
   // tableの行ID
   tableRowID = 1;
@@ -327,7 +284,7 @@ function setTimer() {
   startButton.disabled = false;
 };
 
-// STARTボタンを押した時の処理------------------------------------------------------------------------------------------------------------------------
+// STARTボタン------------------------------------------------------------------------------------------------------------------------
 startButton.addEventListener('click', function() {
   console.log('startボタンが押されました');
 
@@ -433,7 +390,7 @@ function countdownGraph() {
   };
 };
 
-// PAUSEボタン(RESUMEボタン)を押した時の処理------------------------------------------------------------------------------------------------------------------------
+// PAUSEボタン(RESUMEボタン)------------------------------------------------------------------------------------------------------------------------
 function pause() {
   switch (modeButton) {
 
@@ -465,12 +422,11 @@ function pause() {
       } else {
         overTimeTimer = setInterval(countupOverTime, 1000);
       };
-
       break;
   };
 };
 
-// RESETボタンを押した時の処理------------------------------------------------------------------------------------------------------------------------
+// RESETボタン------------------------------------------------------------------------------------------------------------------------
 resetButton.addEventListener('click', function() {
   console.log('resetボタンが押されました');
   clearInterval(countdownTimer);
@@ -493,37 +449,12 @@ resetButton.addEventListener('click', function() {
   for (let i = 1; i < (table.rows.length - 1); i++) {
     table.rows[i].cells[2].innerText = timeConvert(itemAndTimeArray[i - 1].itemTimeSec);
     table.rows[i].cells[2].className = 'p-rowRemainTime';
+
     table.rows[i].cells[3].children[0].style.display = 'block';
   };
 });
 
-// 時間の合計を計算------------------------------------------------------------------------------------------------------------------------
-function totalTimeCalc() {
-  console.log('totalTimeCalcが実行されました');
-  sumMin = 0;
-  sumSec = 0;
-  for (let i = 1; i < (table.rows.length - 1); i++) {
-    sumMin = sumMin + Number(table.rows[i].cells[2].innerText);
-    sumSec = sumSec + Number(table.rows[i].cells[3].innerText);
-  };
-  minToSec = sumMin * 60;
-  allTimeSec = (minToSec + sumSec);
-  hour = Math.floor(allTimeSec / 3600);
-  min = Math.floor(allTimeSec / 60) % 60;
-  sec = allTimeSec % 60;
-
-  min = ('0' + min).slice(-2);
-  sec = ('0' + sec).slice(-2);
-
-  // 合計時間を時・分・秒に分けて表示
-  totalHour.innerText = hour;
-  totalMin.innerText = min;
-  totalSec.innerText = sec;
-  totalTimehhmmss = hour + ':' + min + ':' + sec;
-
-};
-
-// 秒を時間：分:秒に変換------------------------------------------------------------------------------------------------------------------------
+// 秒を、時間：分:秒に変換------------------------------------------------------------------------------------------------------------------------
 function timeConvert(time) {
   hour = Math.floor(time / 3600);
   min = Math.floor(time / 60) % 60;
@@ -539,19 +470,19 @@ function timeConvert(time) {
   };
 };
 
-// 時間を超えたときの処理------------------------------------------------------------------------------------------------------------------------
+// タイマー終了後の処理------------------------------------------------------------------------------------------------------------------------
 function timeOver() {
   console.log('timeOverが実行されました');
   overTimeTimer = setInterval(countupOverTime, 1000);
 };
 
-// 超過した時間のカウントアップ・表示------------------------------------------------------------------------------------------------------------------------
+// タイマー終了後のカウントアップ・表示------------------------------------------------------------------------------------------------------------------------
 function countupOverTime() {
   countupOverTimeSeconds ++;
   timerTime.innerText = timeConvert(countupOverTimeSeconds);
 };
 
-// 配列の時間を合計------------------------------------------------------------------------------------------------------------------------
+// 配列の時間を合計(arrayTimeTotal)------------------------------------------------------------------------------------------------------------------------
 function totalTimeCalcArray() {
   let initialValue = 0;
   arrayTimeTotal = itemAndTimeArray.reduce(function(previousValue, currentValue) {
@@ -571,5 +502,4 @@ function timerInit() {
   timerItem.innerText = 'Item';
   timerTime.innerText = 'Time';
   timerTime.style.color = 'black';
-
 };
