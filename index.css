@@ -78,3 +78,11 @@ body {
   margin:auto;
   background-color: silver;
 }
+
+.p-rowRemainTime {
+  color: black;
+}
+
+.p-rowRemainTimeOver {
+  color: red;
+}
