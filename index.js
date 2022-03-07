@@ -129,30 +129,16 @@ btnInput.addEventListener('click', function() {
   newRow.setAttribute('id', table.rows.length - 3);
 
   // セルを追加
-  let newCell01 = newRow.insertCell();
-  let newCell02 = newRow.insertCell();
-  let newCell03 = newRow.insertCell();
-  let newCell04 = newRow.insertCell();
-  let newCell05 = newRow.insertCell();
-  let newCell06 = newRow.insertCell();
-  let newCell07 = newRow.insertCell();
+  let newItemCell = newRow.insertCell();
+  let newTimeCell = newRow.insertCell();
+  let newRemainCell = newRow.insertCell();
+  let newDeleteCell = newRow.insertCell();
+
 
   // 項目名を表示
-  newCell01.innerText = itemText.value;
+  newItemCell.innerText = itemText.value;
 
-  // 時間を表示
-  newCell02.style.textAlign = 'right';
 
-  // 分を表示
-  newCell03.innerText = timerMinute.value;
-  newCell03.style.textAlign = 'right';
-
-  // 秒を表示
-  newCell04.innerText = timerSecond.value;
-  newCell04.style.textAlign = 'right';
-
-  // 削除ボタンを追加
-  newCell05.innerHTML = '<button id="' + (table.rows.length - 3) + '" onclick="clickDelete(this)" class="delete">削除</button>';
 
   // 分を秒に変換し、合計
   rowMin = Number(timerMinute.value);
@@ -161,14 +147,18 @@ btnInput.addEventListener('click', function() {
 
   inputTimeSec = minToSec + rowSec;
 
-  // 時間表示用のセル追加(暫定)
-  newCell06.innerText = timeConvert(inputTimeSec);
-  newCell06.style.textAlign = 'right';
+  // 時間表示用のセル追加
+  newTimeCell.innerText = timeConvert(inputTimeSec);
+  newTimeCell.style.textAlign = 'right';
 
   // 時間表示用のセル追加(暫定)
-  newCell07.innerText = timeConvert(inputTimeSec);
-  newCell07.className = 'p-rowRemainTime';
-  newCell07.style.textAlign = 'right';
+  newRemainCell.innerText = timeConvert(inputTimeSec);
+  newRemainCell.className = 'p-rowRemainTime';
+  newRemainCell.style.textAlign = 'right';
+
+  // 削除ボタンを追加
+  newDeleteCell.innerHTML = '<button id="' + (table.rows.length - 3) + '" onclick="clickDelete(this)" class="delete">削除</button>';
+  newDeleteCell.style.textAlign = 'center';
 
   // 各行の項目と秒数を配列に格納
   arrayItemAndTime = { itemText: itemText.value, itemTimeSec: inputTimeSec };
@@ -232,7 +222,7 @@ function clickDelete(ele) {
   // row.cells[0].innerText = i + '.';
 
   // 削除ボタンにidを付与
-  tableDeleteButton = table.rows[i].cells[4].children[0];
+  tableDeleteButton = table.rows[i].cells[3].children[0];
   tableDeleteButton.setAttribute('id', i - 1);
   };
 
@@ -361,7 +351,7 @@ startButton.addEventListener('click', function() {
 
   // 削除ボタンを非表示
   for (let i = 1; i < (table.rows.length - 1); i++) {
-    table.rows[i].cells[4].children[0].style.display = 'none';
+    table.rows[i].cells[3].children[0].style.display = 'none';
   };
   remainRowTimeSec = rowTimeSec - rowTimeCountupSeconds;
 
@@ -397,7 +387,7 @@ function countdownGraph() {
   // グラフに残り時間を表示
   timerTime.innerText = timeConvert(remainTimeSec);
   timerItem.innerText = itemAndTimeArray[arrayID].itemText;
-  table.rows[tableRowID].cells[6].innerText = timeConvert(remainRowTimeSec);
+  table.rows[tableRowID].cells[2].innerText = timeConvert(remainRowTimeSec);
 
   // // 全体の時間の何%経過したか計算
   percentProgress = countupSeconds / arrayTimeTotal;
@@ -436,7 +426,7 @@ function countdownGraph() {
 
   // 各項目の残り時間が0になったら、次の項目へ
   if (remainRowTimeSec <= 0) {
-    table.rows[tableRowID].cells[6].className = 'p-rowRemainTimeOver';
+    table.rows[tableRowID].cells[2].className = 'p-rowRemainTimeOver';
     arrayID = arrayID + 1;
     tableRowID = tableRowID + 1;
     rowTimeCountupSeconds = 0;
@@ -499,11 +489,11 @@ resetButton.addEventListener('click', function() {
 
   inputForm.style.display = 'block';
 
-    // 削除ボタンを表示
+    // 残り時間を表示、削除ボタンを表示
   for (let i = 1; i < (table.rows.length - 1); i++) {
-    table.rows[i].cells[6].innerText = timeConvert(itemAndTimeArray[i - 1].itemTimeSec);
-    table.rows[i].cells[6].className = 'p-rowRemainTime';
-    table.rows[i].cells[4].children[0].style.display = 'block';
+    table.rows[i].cells[2].innerText = timeConvert(itemAndTimeArray[i - 1].itemTimeSec);
+    table.rows[i].cells[2].className = 'p-rowRemainTime';
+    table.rows[i].cells[3].children[0].style.display = 'block';
   };
 });
 
