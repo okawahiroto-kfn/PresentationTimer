@@ -167,6 +167,7 @@ btnInput.addEventListener('click', function() {
 
   // 時間表示用のセル追加(暫定)
   newCell07.innerText = timeConvert(inputTimeSec);
+  newCell07.className = 'p-rowRemainTime';
   newCell07.style.textAlign = 'right';
 
   // 各行の項目と秒数を配列に格納
@@ -435,6 +436,7 @@ function countdownGraph() {
 
   // 各項目の残り時間が0になったら、次の項目へ
   if (remainRowTimeSec <= 0) {
+    table.rows[tableRowID].cells[6].className = 'p-rowRemainTimeOver';
     arrayID = arrayID + 1;
     tableRowID = tableRowID + 1;
     rowTimeCountupSeconds = 0;
@@ -453,7 +455,7 @@ function pause() {
 
       // タイマーを一時停止
       // カウントダウンを確認し、一時停止するタイマーを選択
-      if (countdownSeconds > 0) {
+      if (remainTimeSec > 0) {
         clearInterval(countdownTimer);
       } else {
         clearInterval(overTimeTimer);
@@ -468,7 +470,7 @@ function pause() {
 
       // タイマーを再開
       // カウントダウンを確認し、再開するタイマーを選択
-      if (countdownSeconds > 0) {
+      if (remainTimeSec > 0) {
         countdownTimer = setInterval(countdownGraph, 1000);
       } else {
         overTimeTimer = setInterval(countupOverTime, 1000);
@@ -500,6 +502,7 @@ resetButton.addEventListener('click', function() {
     // 削除ボタンを表示
   for (let i = 1; i < (table.rows.length - 1); i++) {
     table.rows[i].cells[6].innerText = timeConvert(itemAndTimeArray[i - 1].itemTimeSec);
+    table.rows[i].cells[6].className = 'p-rowRemainTime';
     table.rows[i].cells[4].children[0].style.display = 'block';
   };
 });
