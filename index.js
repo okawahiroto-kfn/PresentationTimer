@@ -280,6 +280,7 @@ function setTimer() {
 
   rowTimeSec = itemAndTimeArray[arrayID].itemTimeSec;
   remainRowTimeSec = rowTimeSec - rowTimeCountupSeconds;
+
   // STARTボタンを無効化
   startButton.disabled = false;
 };
@@ -370,6 +371,9 @@ function countdownGraph() {
     timerTime.style.color = 'red';
 
     // タイマー終了表示
+
+    timerGraph.clearRect(0, 0, 300, 300);
+
     timerGraph.beginPath();
     timerGraph.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
     timerGraph.strokeStyle = 'red';
@@ -493,6 +497,7 @@ function totalTimeCalcArray() {
 // タイマー初期化------------------------------------------------------------------------------------------------------------------------
 function timerInit() {
   console.log('timerInitが実行されました');
+  timerGraph.clearRect(0, 0, 300, 300);
   timerGraph.beginPath();
   timerGraph.arc(150, 150, 100, 0 * Math.PI / 180, 360 * Math.PI /180, false);
   timerGraph.strokeStyle = 'gray';
