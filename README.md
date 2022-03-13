@@ -1,5 +1,8 @@
 # Presentation Timer
 
+![20220313_PresentationTimer_ScreenShot.png](/20220313_PresentationTimer_ScreenShot.png)
+
+
 ## 概要
 
 プレゼンテーション時に利用することを前提にした、タイマーです。  
