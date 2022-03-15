@@ -27,3 +27,8 @@
 6. RESETボタンを押すと、タイマーの初期状態に戻ります。  
 (入力欄が再表示され、項目の追加・削除が可能になります)
 
+## 実は・・・
+
+[Presentation Timer](https://presentationtimer.online/)
+
+2022/3/15に公開しました。
