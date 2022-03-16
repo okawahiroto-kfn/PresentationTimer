@@ -85,6 +85,9 @@ let percent = 0;
 let percentSum = 0;
 let percentProgress = 0;
 
+//　グラフの色の配列
+const colorArray = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#8B00FF', '#FF00FF'];
+
 // 読み込み時------------------------------------------------------------------------------------------------------------------------
 window.onload = function() {
   timerInit();
@@ -273,11 +276,11 @@ function setTimer() {
     // 円グラフを描画
     timerGraph.beginPath();
     timerGraph.arc(150, 150, 100, (360 * (percentSum - percent)) * Math.PI /180, (360 * percentSum) * Math.PI /180, false);
-    timerGraph.strokeStyle = randomColor;
+    // timerGraph.strokeStyle = randomColor;
+    // 3つの色で順番に描画される
+    timerGraph.strokeStyle = colorArray[i % 3];
     timerGraph.lineWidth = 40;
     timerGraph.stroke();
-
-    console.log('i÷3の余り' +  i % 3);
   };
 
   rowTimeSec = itemAndTimeArray[arrayID].itemTimeSec;
