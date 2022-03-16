@@ -276,6 +276,8 @@ function setTimer() {
     timerGraph.strokeStyle = randomColor;
     timerGraph.lineWidth = 40;
     timerGraph.stroke();
+
+    console.log('i÷3の余り' +  i % 3);
   };
 
   rowTimeSec = itemAndTimeArray[arrayID].itemTimeSec;
