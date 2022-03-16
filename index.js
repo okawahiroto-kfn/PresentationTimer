@@ -85,8 +85,8 @@ let percent = 0;
 let percentSum = 0;
 let percentProgress = 0;
 
-//　グラフの色の配列
-const colorArray = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#8B00FF', '#FF00FF'];
+// グラフの色の配列(8色)
+const colorArray = ['#e67e22', '#f1c40f', '#1abc9c', '#2ecc71', '#3498db', '#9b59b6', '#95a5a6', '#e74c3c'];
 
 // 読み込み時------------------------------------------------------------------------------------------------------------------------
 window.onload = function() {
@@ -271,14 +271,24 @@ function setTimer() {
     percentSum = percentSum + percent;
 
     // 色をランダムに設定
-    let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+    // let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+
+    let graphColorNo = i % 7;
+
+    console.log('graphColorNo:' + graphColorNo);
 
     // 円グラフを描画
     timerGraph.beginPath();
     timerGraph.arc(150, 150, 100, (360 * (percentSum - percent)) * Math.PI /180, (360 * percentSum) * Math.PI /180, false);
     // timerGraph.strokeStyle = randomColor;
-    // 3つの色で順番に描画される
-    timerGraph.strokeStyle = colorArray[i % 3];
+
+    // グラフの色を設定。最初だけ、#e74c3c、それ以降は、colorArrayから順番に取得
+    if (i == 0) {
+      timerGraph.strokeStyle = colorArray[7];
+    } else {
+      timerGraph.strokeStyle = colorArray[graphColorNo];
+    };
+
     timerGraph.lineWidth = 40;
     timerGraph.stroke();
   };
