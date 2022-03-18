@@ -95,6 +95,19 @@ window.onload = function() {
   pauseButton.disabled = true;
   resetButton.disabled = true;
   arrayID = 0;
+
+  // 20220318ハンバーガーメニューここから
+  var nav = document.getElementById('nav-wrapper');
+  var hamburger = document.getElementById('js-hamburger');
+  var blackBg = document.getElementById('js-black-bg');
+
+  hamburger.addEventListener('click', function () {
+      nav.classList.toggle('open');
+  });
+  blackBg.addEventListener('click', function () {
+      nav.classList.remove('open');
+  });
+  // ここまで
 };
 
 // タイマー初期表示------------------------------------------------------------------------------------------------------------------------
