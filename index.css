@@ -200,3 +200,7 @@ black-bg(ハンバーガーメニュー解除用bg)
   opacity: 0.3;
   visibility: visible;
 }
+
+ol {
+  padding-left:2em;
+}
