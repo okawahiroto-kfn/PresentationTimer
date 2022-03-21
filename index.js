@@ -118,10 +118,10 @@ btnInput.addEventListener('click', function() {
   console.log('入力ボタンが押されました');
 
   // 時間が入力されているか確認
-  if ((Number(timerMinute.value) + Number(timerSecond.value)) == 0) {
-    alert('時間を入力してください(1秒以上)');
-    return;
-  };
+  // if ((Number(timerMinute.value) + Number(timerSecond.value)) == 0) {
+  //   alert('時間を入力してください(1秒以上)');
+  //   return;
+  // };
 
   // 合計行の上に新しい行を追加
   newRow = table.insertRow(table.rows.length - 1);
