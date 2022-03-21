@@ -36,7 +36,7 @@ body {
   transform: rotate(-90deg);
 }
 
-.p-graphTime {
+/* .p-graphTime {
   position: absolute;
   width: 300px;
   height: 300px;
@@ -44,16 +44,16 @@ body {
   font-weight: bold;
   text-align: center;
   top: 3.8em;
-}
+} */
 
-.p-graphText {
+/* .p-graphText {
   position: absolute;
   width: 300px;
   height: 300px;
   font-size: xx-large;
   text-align: center;
   top: 4.9em
-}
+} */
 
 .p-inputForm {
   margin: 0 auto;
@@ -63,7 +63,15 @@ body {
 /* inputの横幅を指定する */
 
 .p-itemText {
-  width: 8em;
+  width: 6em;
+}
+
+.p-timerMinute {
+  width: 4em;
+}
+
+.p-timerSecond {
+  width: 4em;
 }
 
 .content {
